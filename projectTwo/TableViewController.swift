@@ -18,6 +18,7 @@ let urlPath = "http://localhost:8888/Retrieve_1.php"
     tableView.delegate = self
     tableView.dataSource = self
     downloadItems()
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -98,33 +99,27 @@ let urlPath = "http://localhost:8888/Retrieve_1.php"
         }
         task1.resume()
         }else{
-        
-            sender.isSelected = true
-            sender.setImage(#imageLiteral(resourceName: "Checked"), for: .normal)
-            print("Checked Selected")
-            let request = NSMutableURLRequest(url: NSURL(string: "http://localhost:8888/update.php")! as URL)
-            request.httpMethod = "POST"
-            let postString = "TaskName=\(id.TaskName as! String)&TaskStatus=Completed"
-            request.httpBody = postString.data(using: String.Encoding.utf8)
-            let task1 = URLSession.shared.dataTask(with: request as URLRequest) {
-            data, response, error in
-            if error != nil {
-            print("error=\(String(describing: error))")
-            return
-                }
-                print("response = \(String(describing: response))")
-                let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-                print("responseString = \(String(describing: responseString))")
-            }
-            task1.resume()
-          }
-          }
-    
-    func itemsDownloaded(items: NSArray) {
-        feedItems = items
-        self.tableView.reloadData()
-
+        sender.isSelected = true
+        sender.setImage(#imageLiteral(resourceName: "Checked"), for: .normal)
+        print("Checked Selected")
+        let request = NSMutableURLRequest(url: NSURL(string: "http://localhost:8888/update.php")! as URL)
+        request.httpMethod = "POST"
+        let postString = "TaskName=\(id.TaskName as! String)&TaskStatus=Completed"
+        request.httpBody = postString.data(using: String.Encoding.utf8)
+        let task2 = URLSession.shared.dataTask(with: request as URLRequest) {
+        data, response, error in
+        if error != nil {
+        print("error=\(String(describing: error))")
+        return
+        }
+        print("response = \(String(describing: response))")
+        let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+        print("responseString = \(String(describing: responseString))")
+        }
+        task2.resume()
+        }
     }
+    
     
     func parseJSON(_ data:Data) {
         
@@ -135,25 +130,18 @@ let urlPath = "http://localhost:8888/Retrieve_1.php"
                 print(error)
             }
             var jsonElement = NSDictionary()
-            let stocks = NSMutableArray()
             for i in 0 ..< jsonResult.count
             {
-                jsonElement = jsonResult[i] as! NSDictionary
-                let stock = StockModel()
+            jsonElement = jsonResult[i] as! NSDictionary
                 //the following insures none of the JsonElement values are nil through optional binding
-                if let TaskName = jsonElement["TaskName"] as? String,
-                    let TaskStatus = jsonElement["TaskStatus"] as? String
-                {
-                    print(TaskName)
-                    print(TaskStatus)
-                    stock.TaskName = TaskName
-                    stock.TaskStatus = TaskStatus
-                    insert.append(insertData(TaskName: TaskName, TaskStatus: TaskStatus))
-                }
-                stocks.add(stock)
-            }
+            if let TaskName = jsonElement["TaskName"] as? String,
+            let TaskStatus = jsonElement["TaskStatus"] as? String
+            {
+            print(TaskName)
+            print(TaskStatus)
+            insert.append(insertData(TaskName: TaskName, TaskStatus: TaskStatus))
+                }}
         DispatchQueue.main.async(execute: { [self] () -> Void in
-            itemsDownloaded(items: stocks)
             })
         }
     
@@ -164,22 +152,23 @@ let urlPath = "http://localhost:8888/Retrieve_1.php"
         if error != nil {
         print("Error")
             }else {
-        print("stocks downloaded")
+        print("downloaded")
         self.parseJSON(data!)
             }}
         task.resume()
     }
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 
-        let id = insert[indexPath.row]
+        let id2 = insert[indexPath.row]
            if editingStyle == .delete {
            insert.remove(at: indexPath.row)
            tableView.deleteRows(at: [indexPath], with: .fade)
             let request = NSMutableURLRequest(url: NSURL(string: "http://localhost:8888/delete.php")! as URL)
             request.httpMethod = "POST"
-            let postString = "TaskName=\(id.TaskName as! String)"
+            let postString = "TaskName=\(id2.TaskName as! String)"
             request.httpBody = postString.data(using: String.Encoding.utf8)
-            let task2 = URLSession.shared.dataTask(with: request as URLRequest) {
+            let task3 = URLSession.shared.dataTask(with: request as URLRequest) {
             data, response, error in
             if error != nil {
             print("error=\(String(describing: error))")
@@ -189,13 +178,10 @@ let urlPath = "http://localhost:8888/Retrieve_1.php"
             let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
             print("responseString = \(String(describing: responseString))")
             }
-            task2.resume()
+            task3.resume()
         }
-    }
-    
-    
-    
-}
+       }
+      }
 
 struct insertData {
     var TaskName:String?

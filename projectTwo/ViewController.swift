@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var logBtn: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
     @IBAction func logBtnTapped(_ sender: UIButton) {
-        for Verify in log{
+       for Verify in log{
               if userText.text == Verify.username && passText.text == Verify.password{
                 print("Log in successful \(Verify.username) \(Verify.password) \(Verify.password)")
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -24,11 +24,30 @@ class ViewController: UIViewController {
                 navigationController.modalPresentationStyle = .fullScreen
                 self.present(navigationController, animated: true, completion: nil)
               }
+            
           //  let alertController = UIAlertController(title: "Alert", message: "Incorrect Credentials", preferredStyle: UIAlertController.Style.alert)
        //     alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default,handler: nil))
           //  self.present(alertController, animated: true, completion: nil)
          //   print("Login fail")
             }
+
+        
+ /*       let request = NSMutableURLRequest(url: NSURL(string: "http://localhost:8888/checklog.php")! as URL)
+        request.httpMethod = "POST"
+        let postString = "username=\(userText.text as! String)&password=\(passText.text as! String)"
+        request.httpBody = postString.data(using: String.Encoding.utf8)
+        let task3 = URLSession.shared.dataTask(with: request as URLRequest) {
+        data, response, error in
+        if error != nil {
+        print("error=\(String(describing: error))")
+        return
+        }
+        print("response = \(String(describing: response))")
+        let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+        print("responseString = \(String(describing: responseString))")
+        }
+        task3.resume()
+    */
     }
  
     override func viewDidLoad() {
@@ -73,21 +92,18 @@ class ViewController: UIViewController {
         let url: URL = URL(string: urlPath)!
         let defaultSession = Foundation.URLSession(configuration: URLSessionConfiguration.default)
         let task = defaultSession.dataTask(with: url) { (data, response, error) in
-            if error != nil {
-                print("Error")
-            }else {
-                print("stocks downloaded")
-                self.parseJSON(data!)
-            }
-        }
+        if error != nil {
+        print("Error")
+        }else {
+        print("stocks downloaded")
+        self.parseJSON(data!)
+        }}
         task.resume()
-    }
+        }
     
     func itemsDownloaded(items: NSArray) {
         feedItems = items
-        
-    }
-}
+    }}
 
 struct logdetails {
     var username:String?

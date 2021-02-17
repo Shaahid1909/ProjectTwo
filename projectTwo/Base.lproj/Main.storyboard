@@ -87,7 +87,7 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="382" height="50"/>
                                                         <color key="tintColor" red="1" green="0.60784313729999995" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
                                                     </textField>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -626,7 +626,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="zJM-HU-B2B"/>
+        <segue reference="7rv-zQ-Ch0"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Checked" width="44" height="44"/>
