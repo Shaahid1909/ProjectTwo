@@ -1,6 +1,6 @@
 
 import UIKit
-import Alamofire
+//import Alamofire
 
 class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
     
@@ -56,7 +56,7 @@ let urlPath = "http://localhost:8888/Retrieve_1.php"
             print("responseString = \(String(describing: responseString))")
             }
             task1.resume()
-            let task = insertData(TaskName: textField.text!, TaskStatus: "pending")
+            let task = insertData(TaskName:textField.text!, TaskStatus:"Pending")
             self.insert.append(task)
             self.tableView.reloadData()
             let alertController = UIAlertController(title: "Task", message: "Task Added", preferredStyle: UIAlertController.Style.alert)
@@ -171,13 +171,25 @@ let urlPath = "http://localhost:8888/Retrieve_1.php"
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 
-        if editingStyle == .delete {
-        insert.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .fade)
-      
-         
-
-
+        let id = insert[indexPath.row]
+           if editingStyle == .delete {
+           insert.remove(at: indexPath.row)
+           tableView.deleteRows(at: [indexPath], with: .fade)
+            let request = NSMutableURLRequest(url: NSURL(string: "http://localhost:8888/delete.php")! as URL)
+            request.httpMethod = "POST"
+            let postString = "TaskName=\(id.TaskName as! String)"
+            request.httpBody = postString.data(using: String.Encoding.utf8)
+            let task2 = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            if error != nil {
+            print("error=\(String(describing: error))")
+            return
+            }
+            print("response = \(String(describing: response))")
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(String(describing: responseString))")
+            }
+            task2.resume()
         }
     }
     
