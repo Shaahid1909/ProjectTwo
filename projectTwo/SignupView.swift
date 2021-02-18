@@ -16,7 +16,7 @@ class SignupView: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var SignupBtn: UIButton!
     @IBOutlet weak var messageLabel: UILabel!
     @IBAction func signupTapped(_ sender: UIButton) {
-    let request = NSMutableURLRequest(url: NSURL(string: "http://localhost:8888/orgReg.php")! as URL)
+    let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/orgReg.php")! as URL)
     request.httpMethod = "POST"
     let postString = "name=\(nameTextF.text!)&username=\(userNameTextF.text!)&password=\(passTextF.text!)"
     request.httpBody = postString.data(using: String.Encoding.utf8)
