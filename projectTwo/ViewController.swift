@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var logBtn: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
     @IBAction func logBtnTapped(_ sender: UIButton) {
+        if userText.text?.isEmpty != true && passText.text?.isEmpty != true{
        for Verify in log{
               if userText.text == Verify.username && passText.text == Verify.password{
                 print("Log in successful \(Verify.username) \(Verify.password) \(Verify.password)")
@@ -23,14 +24,22 @@ class ViewController: UIViewController {
                 navigationController.pushViewController(vc, animated: true)
                 navigationController.modalPresentationStyle = .fullScreen
                 self.present(navigationController, animated: true, completion: nil)
+              }else{
+                print("Failed Error")
               }
-            
+       }
           //  let alertController = UIAlertController(title: "Alert", message: "Incorrect Credentials", preferredStyle: UIAlertController.Style.alert)
        //     alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default,handler: nil))
           //  self.present(alertController, animated: true, completion: nil)
          //   print("Login fail")
-            }
-
+            }else{
+                let alert = UIAlertController(title: "Alert", message: "Fill All Fields", preferredStyle: UIAlertController.Style.alert)
+                let cancel = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in
+                  }
+                alert.addAction(cancel)
+                present(alert, animated: true, completion: nil)
+              }
+    }
         
  /*       let request = NSMutableURLRequest(url: NSURL(string: "http://localhost:8888/checklog.php")! as URL)
         request.httpMethod = "POST"
@@ -48,7 +57,7 @@ class ViewController: UIViewController {
         }
         task3.resume()
     */
-    }
+    
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,6 +109,8 @@ class ViewController: UIViewController {
         }}
         task.resume()
         }
+   
+    
     
     func itemsDownloaded(items: NSArray) {
         feedItems = items

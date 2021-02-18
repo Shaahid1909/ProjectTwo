@@ -37,8 +37,19 @@ let urlPath = "http://localhost:8888/Retrieve_1.php"
         }
             return cell
         }
-
+    
+    
+    @IBAction func refreshBtn(_ sender: Any) {
+        insert.removeAll()
+        downloadItems()
+        tableView.reloadData()
+    }
+    
+    
     @IBAction func Add(_ sender: Any) {
+        
+        insert.removeAll()
+        downloadItems()
         var textField = UITextField()
             let alert = UIAlertController(title: "Add your Task", message: "", preferredStyle: UIAlertController.Style.alert)
             let action = UIAlertAction(title: "Add", style: UIAlertAction.Style.default) { [self](action) in
@@ -123,27 +134,46 @@ let urlPath = "http://localhost:8888/Retrieve_1.php"
     
     func parseJSON(_ data:Data) {
         
-            var jsonResult = NSArray()
+        var jsonResult = NSArray()
             do{
                 jsonResult = try JSONSerialization.jsonObject(with: data, options:JSONSerialization.ReadingOptions.allowFragments) as! NSArray
             } catch let error as NSError {
                 print(error)
             }
             var jsonElement = NSDictionary()
-            for i in 0 ..< jsonResult.count
+        let stocks = NSMutableArray()
+        
+        for i in 0 ..< jsonResult.count
             {
+                
+                
             jsonElement = jsonResult[i] as! NSDictionary
                 //the following insures none of the JsonElement values are nil through optional binding
+                let stock = StockModel()
+                
             if let TaskName = jsonElement["TaskName"] as? String,
             let TaskStatus = jsonElement["TaskStatus"] as? String
             {
             print(TaskName)
             print(TaskStatus)
             insert.append(insertData(TaskName: TaskName, TaskStatus: TaskStatus))
-                }}
+                }
+                
+                stocks.add(stock)
+                
+            }
         DispatchQueue.main.async(execute: { [self] () -> Void in
-            })
+                itemsDownloaded(items: stocks)
+            
+        })
         }
+    
+    func itemsDownloaded(items: NSArray) {
+        feedItems = items
+        self.tableView.reloadData()
+
+    }
+    
     
     func downloadItems() {
         let url: URL = URL(string: urlPath)!
