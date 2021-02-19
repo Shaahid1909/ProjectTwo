@@ -405,7 +405,6 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="signupTapped:" destination="lYm-Zl-3w2" eventType="touchUpInside" id="Zhy-Ht-HJL"/>
-                                            <segue destination="pAs-Uv-CJr" kind="presentation" modalPresentationStyle="fullScreen" id="8Wn-U4-UxO"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -632,7 +631,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="zJM-HU-B2B"/>
+        <segue reference="7rv-zQ-Ch0"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Checked" width="44" height="44"/>
