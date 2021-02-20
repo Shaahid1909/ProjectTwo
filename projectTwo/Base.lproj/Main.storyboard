@@ -154,7 +154,7 @@
                                             <color key="titleColor" red="0.96679742560000004" green="0.69860749050000004" blue="0.13895731189999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="lYm-Zl-3w2" kind="presentation" modalPresentationStyle="fullScreen" id="dM1-1J-pao"/>
+                                            <action selector="signupBtnTapped:" destination="YsD-jF-NZQ" eventType="touchUpInside" id="XL6-AK-LBv"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -231,7 +231,7 @@
         <!--Signup View-->
         <scene sceneID="iDG-OH-DLD">
             <objects>
-                <viewController id="lYm-Zl-3w2" customClass="SignupView" customModule="projectTwo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="signupPass" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lYm-Zl-3w2" customClass="SignupView" customModule="projectTwo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mPS-89-9lK">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -387,16 +387,16 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="oL9-0a-nxW">
-                                <rect key="frame" x="10" y="596" width="394" height="60"/>
+                                <rect key="frame" x="20" y="606" width="374" height="55"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RIh-RA-Ync">
-                                        <rect key="frame" x="0.0" y="0.0" width="394" height="60"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="55"/>
                                         <color key="backgroundColor" red="0.96679742560000004" green="0.69860749050000004" blue="0.13895731189999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                         <color key="tintColor" systemColor="systemBackgroundColor"/>
                                         <inset key="contentEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="Sign Up">
-                                            <color key="titleColor" systemColor="labelColor"/>
+                                            <color key="titleColor" systemColor="systemBackgroundColor"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -409,7 +409,7 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="OEb-dr-oYn"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="55" id="Ktw-PJ-dhO"/>
                                 </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kYO-5M-EU0">
@@ -483,11 +483,11 @@
                             <constraint firstAttribute="bottomMargin" secondItem="wUH-oy-vGb" secondAttribute="bottom" constant="7" id="6Y2-Ws-LM6"/>
                             <constraint firstItem="pwK-N5-h86" firstAttribute="trailing" secondItem="cUy-EY-O9H" secondAttribute="trailing" constant="159" id="6YV-wH-BJg"/>
                             <constraint firstItem="Y0i-0W-IlM" firstAttribute="top" secondItem="cUy-EY-O9H" secondAttribute="bottom" constant="8.5" id="77r-Jl-hAr"/>
-                            <constraint firstItem="oL9-0a-nxW" firstAttribute="leading" secondItem="pwK-N5-h86" secondAttribute="leading" constant="10" id="CQI-wf-fkc"/>
                             <constraint firstItem="bry-7X-5dx" firstAttribute="top" secondItem="xyz-LN-aZj" secondAttribute="bottom" constant="8" id="DNe-Pj-zUt"/>
                             <constraint firstItem="Gsk-wu-v1t" firstAttribute="leading" secondItem="pwK-N5-h86" secondAttribute="leading" id="F76-D4-wl0"/>
                             <constraint firstItem="bry-7X-5dx" firstAttribute="leading" secondItem="pwK-N5-h86" secondAttribute="leading" constant="20" id="JBT-5m-NI8"/>
                             <constraint firstItem="Gsk-wu-v1t" firstAttribute="trailing" secondItem="pwK-N5-h86" secondAttribute="trailing" id="JIT-iX-oox"/>
+                            <constraint firstItem="pwK-N5-h86" firstAttribute="trailing" secondItem="oL9-0a-nxW" secondAttribute="trailing" constant="20" id="LQd-Ln-7hD"/>
                             <constraint firstItem="xyz-LN-aZj" firstAttribute="leading" secondItem="pwK-N5-h86" secondAttribute="leading" constant="20" id="OAi-kb-dU7"/>
                             <constraint firstItem="pMB-22-NRb" firstAttribute="centerX" secondItem="wUH-oy-vGb" secondAttribute="centerX" id="Q3a-av-Xmj"/>
                             <constraint firstItem="wUH-oy-vGb" firstAttribute="top" secondItem="kYO-5M-EU0" secondAttribute="bottom" constant="8" symbolic="YES" id="RFO-Dz-Vbv"/>
@@ -497,12 +497,12 @@
                             <constraint firstItem="pwK-N5-h86" firstAttribute="trailing" secondItem="bry-7X-5dx" secondAttribute="trailing" constant="145" id="bKD-tf-4lf"/>
                             <constraint firstItem="cUy-EY-O9H" firstAttribute="top" secondItem="bRt-97-wEj" secondAttribute="bottom" constant="10" id="eDj-Fd-gVX"/>
                             <constraint firstItem="pwK-N5-h86" firstAttribute="trailing" secondItem="kYO-5M-EU0" secondAttribute="trailing" constant="197" id="eYC-PU-9Lg"/>
-                            <constraint firstItem="pwK-N5-h86" firstAttribute="trailing" secondItem="oL9-0a-nxW" secondAttribute="trailing" constant="10" id="f6k-pw-oRX"/>
                             <constraint firstItem="pwK-N5-h86" firstAttribute="trailing" secondItem="pMB-22-NRb" secondAttribute="trailing" constant="30" id="hDs-It-nFj"/>
                             <constraint firstItem="wUH-oy-vGb" firstAttribute="top" secondItem="mPS-89-9lK" secondAttribute="top" constant="713" id="mri-kh-6aq"/>
+                            <constraint firstItem="oL9-0a-nxW" firstAttribute="leading" secondItem="pwK-N5-h86" secondAttribute="leading" constant="20" id="o84-Ch-FMg"/>
                             <constraint firstItem="wUH-oy-vGb" firstAttribute="leading" secondItem="Gsk-wu-v1t" secondAttribute="leading" id="qqz-yc-DyF"/>
                             <constraint firstItem="Gsk-wu-v1t" firstAttribute="top" secondItem="bry-7X-5dx" secondAttribute="bottom" constant="40" id="xNM-mr-IWf"/>
-                            <constraint firstItem="oL9-0a-nxW" firstAttribute="top" secondItem="Gsk-wu-v1t" secondAttribute="bottom" constant="109" id="yrK-uG-y8g"/>
+                            <constraint firstItem="oL9-0a-nxW" firstAttribute="top" secondItem="Gsk-wu-v1t" secondAttribute="bottom" constant="119" id="yrK-uG-y8g"/>
                         </constraints>
                     </view>
                     <connections>
@@ -537,7 +537,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TOc-Q2-hJf">
-                                                    <rect key="frame" x="20" y="24" width="264" height="36"/>
+                                                    <rect key="frame" x="54" y="24" width="264" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="264" id="1Dv-cR-Ykd"/>
                                                     </constraints>
@@ -559,8 +559,8 @@
                                                 <constraint firstItem="mXw-uZ-3nq" firstAttribute="top" secondItem="YPe-tl-56c" secondAttribute="top" constant="24" id="85Q-X2-6OW"/>
                                                 <constraint firstAttribute="bottom" secondItem="mXw-uZ-3nq" secondAttribute="bottom" constant="24" id="Bh1-Up-DUY"/>
                                                 <constraint firstAttribute="trailing" secondItem="mXw-uZ-3nq" secondAttribute="trailing" constant="27" id="EDC-qa-HTS"/>
-                                                <constraint firstAttribute="trailing" secondItem="TOc-Q2-hJf" secondAttribute="trailing" constant="130" id="d9A-L0-R27"/>
-                                                <constraint firstItem="mXw-uZ-3nq" firstAttribute="leading" secondItem="TOc-Q2-hJf" secondAttribute="trailing" constant="80" id="eyQ-oP-Mw2"/>
+                                                <constraint firstAttribute="trailing" secondItem="TOc-Q2-hJf" secondAttribute="trailing" constant="96" id="d9A-L0-R27"/>
+                                                <constraint firstItem="mXw-uZ-3nq" firstAttribute="leading" secondItem="TOc-Q2-hJf" secondAttribute="trailing" constant="46" id="eyQ-oP-Mw2"/>
                                                 <constraint firstItem="TOc-Q2-hJf" firstAttribute="top" secondItem="YPe-tl-56c" secondAttribute="top" constant="24" id="fnB-i7-Nf3"/>
                                                 <constraint firstItem="TOc-Q2-hJf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="YPe-tl-56c" secondAttribute="leading" constant="20" symbolic="YES" id="n1e-8i-FeW"/>
                                                 <constraint firstAttribute="bottom" secondItem="TOc-Q2-hJf" secondAttribute="bottom" constant="11" id="u1z-O8-Ud0"/>
@@ -631,7 +631,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="7rv-zQ-Ch0"/>
+        <segue reference="zJM-HU-B2B"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Checked" width="44" height="44"/>

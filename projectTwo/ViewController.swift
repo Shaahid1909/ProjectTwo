@@ -14,6 +14,30 @@ class ViewController: UIViewController {
     @IBOutlet weak var logBtn: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
     @IBAction func logBtnTapped(_ sender: UIButton) {
+          downloadItems()
+            if !userText.text!.trimmingCharacters(in: .whitespaces).isEmpty && !passText.text!.trimmingCharacters(in: .whitespaces).isEmpty{
+             
+                
+                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                  let navigationController = storyBoard.instantiateViewController(withIdentifier: "HomeNavigationContoller") as! UINavigationController
+                  let vc = storyBoard.instantiateViewController(withIdentifier: "HomeView") as! TableViewController
+                  navigationController.pushViewController(vc, animated: true)
+                  navigationController.modalPresentationStyle = .fullScreen
+                  self.present(navigationController, animated: true, completion: nil)
+                vc.getusername = userText.text
+                
+            }
+            else{
+                let alert = UIAlertController(title: "Alert", message: "Fill All Fields", preferredStyle: UIAlertController.Style.alert)
+                let cancel = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in
+                  }
+                alert.addAction(cancel)
+                present(alert, animated: true, completion: nil)
+              }
+            }
+        
+ /*
+      downloadItems()
         if userText.text?.isEmpty != true && passText.text?.isEmpty != true{
        for Verify in log{
               if userText.text == Verify.username && passText.text == Verify.password{
@@ -24,7 +48,12 @@ class ViewController: UIViewController {
                 navigationController.pushViewController(vc, animated: true)
                 navigationController.modalPresentationStyle = .fullScreen
                 self.present(navigationController, animated: true, completion: nil)
-             
+                
+                
+                
+            //    let vcpass = storyBoard.instantiateViewController(withIdentifier: "signupPass") as! SignupView
+               
+                
                 vc.getusername = userText.text
               
               }else{
@@ -61,21 +90,29 @@ class ViewController: UIViewController {
         }
         task3.resume()
     */
+ */
     
- 
+    @IBAction func signupBtnTapped(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier :"signupPass") as! SignupView
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+        }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         errorLabel.alpha = 0
         downloadItems()
+        
     }
 
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "HomeView" {
             let user = segue.destination as! TableViewController
             user.getusername = userrname
-        }
+       
+    }
     }
     
     func parseJSON(_ data:Data) {
@@ -97,8 +134,6 @@ class ViewController: UIViewController {
                 print(Username)
                 print(Password)
                 log.append(logdetails(username: Username, password: Password))
-                
-                
                 print(log)
                 }
                 stocks.add(stock)
@@ -110,7 +145,7 @@ class ViewController: UIViewController {
         }
     
     func downloadItems() {
-        let urlPath = "https://appstudio.co/iOS/login.php"
+   /*     let urlPath = "https://appstudio.co/iOS/login.php"
         let url: URL = URL(string: urlPath)!
         let defaultSession = Foundation.URLSession(configuration: URLSessionConfiguration.default)
         let task = defaultSession.dataTask(with: url) { (data, response, error) in
@@ -120,14 +155,31 @@ class ViewController: UIViewController {
         print("stocks downloaded")
         self.parseJSON(data!)
         }}
+        task.resume()*/
+    let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/login.php")! as URL)
+        request.httpMethod = "POST"
+            let postString = "username=\(userText.text as! String)"
+    print("postString \(postString)")
+    request.httpBody = postString.data(using: String.Encoding.utf8)
+            
+    let task = URLSession.shared.dataTask(with: request as URLRequest) {
+        data, response, error in
+        if error != nil {
+        print("error=\(String(describing: error))")
+        return
+        }
+        self.parseJSON(data!)
+        print("response = \(String(describing: response))")
+        let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+        print("responseString = \(String(describing: responseString))")
+        }
         task.resume()
         }
    
-    
-    
     func itemsDownloaded(items: NSArray) {
         feedItems = items
     }}
+
 
 struct logdetails {
     var username:String?

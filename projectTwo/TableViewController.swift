@@ -4,11 +4,9 @@ import UIKit
 
 class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate{
     
-    
     var getusername:String?
     
 let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
-    
     
 
     @IBOutlet weak var tableView: UITableView!
@@ -36,12 +34,8 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
         button.layer.shadowOffset = CGSize.zero
         button.layer.zPosition = 1
         view.addSubview(button)
-    
-        
     }
     
- 
-
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
             let off = self.tableView.contentOffset.y
             let yPst = self.view.frame.size.height
@@ -207,7 +201,6 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
     
     
     func parseJSON(_ data:Data) {
-        
         var jsonResult = NSArray()
             do{
                 jsonResult = try JSONSerialization.jsonObject(with: data, options:JSONSerialization.ReadingOptions.allowFragments) as! NSArray
@@ -231,7 +224,6 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
             }
         DispatchQueue.main.async(execute: { [self] () -> Void in
                 itemsDownloaded(items: stocks)
-            
         })
         }
     
@@ -260,10 +252,12 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
               let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
               print("responseString = \(String(describing: responseString))")
             }
-            task.resume()    }
+            task.resume()
+        
+    }
     
+ 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-
         let id2 = insert[indexPath.row]
            if editingStyle == .delete {
            insert.remove(at: indexPath.row)
@@ -284,7 +278,8 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
             }
             task3.resume()
         }}
-}
+        }
+
 
 struct insertData {
     var TaskName:String?
