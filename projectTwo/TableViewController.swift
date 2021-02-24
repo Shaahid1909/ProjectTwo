@@ -15,7 +15,8 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
     var feedItems: NSArray = NSArray()
     var selectedStock : StockModel = StockModel()
     var insert = [insertData]()
-    
+    var didselect:String?
+    var oldTaskname:String?
     
     override func viewDidLoad() {
     super.viewDidLoad()
@@ -215,10 +216,12 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
                 //the following insures none of the JsonElement values are nil through optional binding
             let stock = StockModel()
             if let TaskName = jsonElement["Taskname"] as? String,
-            let TaskStatus = jsonElement["TaskStatus"] as? String         {
+            let TaskStatus = jsonElement["TaskStatus"] as? String,
+           let Id = jsonElement["Id"] as? String
+            {
             print(TaskName)
             print(TaskStatus)
-            insert.append(insertData(TaskName: TaskName, TaskStatus: TaskStatus))
+            insert.append(insertData(TaskName: TaskName, TaskStatus: TaskStatus,Id: Id))
                 }
                 stocks.add(stock)
             }
@@ -232,6 +235,71 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
         feedItems = items
         self.tableView.reloadData()
       }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        didselect?.removeAll()
+        oldTaskname?.removeAll()
+        var textField = UITextField()
+        didselect = "\(insert[indexPath.row].TaskName as! String)"
+        print("UpdateFunction \(Int16(insert[indexPath.row].Id as! String) as! Int16)")
+        if   textField.text!.trimmingCharacters(in: .whitespaces).isEmpty{
+            insert.removeAll()
+            downloadItems()
+
+                let alert = UIAlertController(title: "Edit", message: "", preferredStyle: UIAlertController.Style.alert)
+                let action = UIAlertAction(title: "update", style: UIAlertAction.Style.default) { [self](action) in
+                    let alertController = UIAlertController(title: "Edit", message: "Successfully updated!", preferredStyle: UIAlertController.Style.alert)
+                    alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default,handler: nil))
+                    
+                    // namo link sever "http://con.test:8888/Task.php"
+                    
+                    let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/Edit.php")! as URL)
+                    request.httpMethod = "POST"
+                    let postString = "username=\(getusername as! String)&TaskName=\(textField.text as! String)&TaskStatus=\(insert[indexPath.row].TaskStatus as! String)&Id=\(Int16(insert[indexPath.row].Id as! String) as! Int16)"
+                    print("postString : \(postString)")
+
+                    request.httpBody = postString.data(using: String.Encoding.utf8)
+
+                    let task = URLSession.shared.dataTask(with: request as URLRequest) {
+                        data, response, error in
+
+                        if error != nil {
+                            print("error=\(String(describing: error))")
+                            return
+                        }
+                        print("response = \(String(describing: response))")
+                        let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+                        print("responseString = \(String(describing: responseString))")
+                    }
+                    task.resume()
+                    
+                    self.present(alertController, animated: true, completion: nil)
+                    insert.removeAll()
+                    downloadItems()
+                    self.tableView.reloadData()
+                    }
+                let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+                    }
+            alert.addTextField { [self] (alertTextField) in
+                      alertTextField.placeholder = "Edit Task"
+                alertTextField.text = didselect
+                      textField = alertTextField
+                    }
+                    alert.addAction(action)
+            alert.addAction(cancel)
+                    present(alert, animated: true, completion: nil)
+        }else{
+            let alert = UIAlertController(title: "Alert", message: "Fill All Fields", preferredStyle: UIAlertController.Style.alert)
+            let cancel = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in
+                }
+            alert.addAction(cancel)
+            present(alert, animated: true, completion: nil)
+        }
+
+    }
+    
+    
     
     
     func downloadItems() {
@@ -284,6 +352,7 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
 struct insertData {
     var TaskName:String?
     var TaskStatus:String?
-  
+    var Id:String?
+    
 }
 
