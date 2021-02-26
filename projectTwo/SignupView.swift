@@ -129,8 +129,6 @@ class SignupView: UIViewController,UITextFieldDelegate {
             let userName = jsonElement["username"] as? String,
             let Password = jsonElement["password"] as? String            {
                 signup.append(signdt(name: Name, username: userName, password: Password))
-        
-            
                 }
                 stocks.add(stock)
             }
@@ -169,9 +167,9 @@ class SignupView: UIViewController,UITextFieldDelegate {
             print("responseString = \(String(describing: responseString))")
         }
             task.resume()
-    }
-    
-}
+    }}
+
+
 struct signdt {
     var name:String?
     var username:String?

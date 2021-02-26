@@ -18,6 +18,12 @@
 		8C5C3F7925D6B8F300796935 /* projectTwoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5C3F7825D6B8F300796935 /* projectTwoTests.swift */; };
 		8C5C3F8425D6B8F300796935 /* projectTwoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5C3F8325D6B8F300796935 /* projectTwoUITests.swift */; };
 		8C5C3F9525D6B9C800796935 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5C3F9425D6B9C800796935 /* SignupView.swift */; };
+		8C95307A25E7CE990041178D /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C95307925E7CE980041178D /* PopUpViewController.swift */; };
+		8C95307F25E7CF230041178D /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C95307E25E7CF230041178D /* UserTableViewCell.swift */; };
+		8C95308425E7CF8B0041178D /* ChooseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C95308325E7CF8B0041178D /* ChooseTableViewCell.swift */; };
+		8C95308925E7DC6E0041178D /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C95308825E7DC6E0041178D /* UserViewController.swift */; };
+		8C9778C225E64A6400EC87FC /* AdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9778C125E64A6400EC87FC /* AdminViewController.swift */; };
+		8C9778C725E64B7400EC87FC /* AdminCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9778C625E64B7400EC87FC /* AdminCell.swift */; };
 		8CFE883E25DBA21A0016EB59 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFE883D25DBA21A0016EB59 /* TableViewController.swift */; };
 		8CFE884325DBA2220016EB59 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFE884225DBA2220016EB59 /* TableViewCell.swift */; };
 		8CFE885025DBF3B10016EB59 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFE884F25DBF3B10016EB59 /* FeedModel.swift */; };
@@ -64,6 +70,12 @@
 		8C5C3F8325D6B8F300796935 /* projectTwoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = projectTwoUITests.swift; sourceTree = "<group>"; };
 		8C5C3F8525D6B8F300796935 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C5C3F9425D6B9C800796935 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
+		8C95307925E7CE980041178D /* PopUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
+		8C95307E25E7CF230041178D /* UserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
+		8C95308325E7CF8B0041178D /* ChooseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseTableViewCell.swift; sourceTree = "<group>"; };
+		8C95308825E7DC6E0041178D /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
+		8C9778C125E64A6400EC87FC /* AdminViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
+		8C9778C625E64B7400EC87FC /* AdminCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminCell.swift; sourceTree = "<group>"; };
 		8CFE883D25DBA21A0016EB59 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		8CFE884225DBA2220016EB59 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		8CFE884F25DBF3B10016EB59 /* FeedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
@@ -161,6 +173,12 @@
 				8CFE884225DBA2220016EB59 /* TableViewCell.swift */,
 				8CFE884F25DBF3B10016EB59 /* FeedModel.swift */,
 				8CFE885425DBF3B90016EB59 /* StockModel.swift */,
+				8C9778C125E64A6400EC87FC /* AdminViewController.swift */,
+				8C9778C625E64B7400EC87FC /* AdminCell.swift */,
+				8C95307925E7CE980041178D /* PopUpViewController.swift */,
+				8C95307E25E7CF230041178D /* UserTableViewCell.swift */,
+				8C95308325E7CF8B0041178D /* ChooseTableViewCell.swift */,
+				8C95308825E7DC6E0041178D /* UserViewController.swift */,
 			);
 			path = projectTwo;
 			sourceTree = "<group>";
@@ -421,12 +439,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C9778C225E64A6400EC87FC /* AdminViewController.swift in Sources */,
 				8CFE885525DBF3B90016EB59 /* StockModel.swift in Sources */,
 				8C5C3F9525D6B9C800796935 /* SignupView.swift in Sources */,
+				8C95307A25E7CE990041178D /* PopUpViewController.swift in Sources */,
+				8C95307F25E7CF230041178D /* UserTableViewCell.swift in Sources */,
 				8C5C3F6625D6B8EF00796935 /* ViewController.swift in Sources */,
 				8C5C3F6225D6B8EF00796935 /* AppDelegate.swift in Sources */,
+				8C95308925E7DC6E0041178D /* UserViewController.swift in Sources */,
 				8CFE884325DBA2220016EB59 /* TableViewCell.swift in Sources */,
 				8CFE885025DBF3B10016EB59 /* FeedModel.swift in Sources */,
+				8C95308425E7CF8B0041178D /* ChooseTableViewCell.swift in Sources */,
+				8C9778C725E64B7400EC87FC /* AdminCell.swift in Sources */,
 				8CFE883E25DBA21A0016EB59 /* TableViewController.swift in Sources */,
 				8C5C3F6425D6B8EF00796935 /* SceneDelegate.swift in Sources */,
 			);

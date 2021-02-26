@@ -5,12 +5,9 @@ import UIKit
 class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate{
     
     var getusername:String?
-    
-let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
-    
+    var urlpath:String?
 
     @IBOutlet weak var tableView: UITableView!
-    
     private let button = UIButton(type: UIButton.ButtonType.custom) as UIButton
     var feedItems: NSArray = NSArray()
     var selectedStock : StockModel = StockModel()
@@ -18,11 +15,86 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
     var didselect:String?
     var oldTaskname:String?
     
+
+    @IBAction func AllTaskBtntap(_ sender: Any) {
+      
+        urlpath?.removeAll()
+        insert.removeAll()
+        urlpath = "https://appstudio.co/iOS/Retrieve_1.php"
+        downloadItems()
+        tableView.reloadData()
+        Vieww.isHidden = true
+        
+    }
+    
+
+        @IBOutlet var Vieww: UIView!
+         
+        @IBAction func Completed(_ sender: UIButton) {
+        
+            urlpath?.removeAll()
+            insert.removeAll()
+            urlpath = "https://appstudio.co/iOS/Completed.php"
+            downloadItems()
+            tableView.reloadData()
+            Vieww.isHidden = true
+            
+         }
+    
+        @IBAction func Pending(_ sender: UIButton) {
+            
+            urlpath?.removeAll()
+            insert.removeAll()
+            urlpath = "https://appstudio.co/iOS/Pending.php"
+            downloadItems()
+            tableView.reloadData()
+            Vieww.isHidden = true
+            
+         }
+       @IBAction func pastBtn(_ sender: UIButton) {
+   
+        urlpath?.removeAll()
+        insert.removeAll()
+        urlpath = "https://appstudio.co/iOS/past.php"
+        downloadItems()
+        tableView.reloadData()
+        Vieww.isHidden = true
+        
+    }
+    
+      @IBAction func TodayBtn(_ sender: UIButton) {
+            
+        urlpath?.removeAll()
+        insert.removeAll()
+        urlpath = "https://appstudio.co/iOS/Today.php"
+        downloadItems()
+        tableView.reloadData()
+        Vieww.isHidden = true
+        
+         }
+
+     @IBAction func TomorrowBtn(_ sender: Any) {
+        urlpath?.removeAll()
+        insert.removeAll()
+        urlpath = "https://appstudio.co/iOS/Tomorrow.php"
+        downloadItems()
+        tableView.reloadData()
+        Vieww.isHidden = true
+    }
+    
     override func viewDidLoad() {
     super.viewDidLoad()
-    tableView.delegate = self
-    tableView.dataSource = self
-    downloadItems()
+        popView.layer.cornerRadius = 10
+        popView.layer.borderColor = UIColor.red.cgColor
+        popView.layer.borderWidth = 0.3
+        popView.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width * 0.9, height: self.view.bounds.height * 0.4)
+        datepickerbirth()
+        doneselect()
+        Vieww.layer.cornerRadius = 10.0
+        Vieww.isHidden = true
+        tableView.delegate = self
+        tableView.dataSource = self
+        downloadItems()
         let bottomImage = UIImage(named: "plus.png")
         let yPst = self.view.frame.size.height - 55 - 20
         button.frame = CGRect(x: 310, y: 700, width: 85, height: 85)
@@ -36,6 +108,18 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
         button.layer.zPosition = 1
         view.addSubview(button)
     }
+    
+   
+    
+
+    @IBAction func droplist(_ sender: Any) {
+        if Vieww.isHidden == false{
+            Vieww.isHidden = true
+        }else if Vieww.isHidden == true{
+            Vieww.isHidden = false
+        }
+    }
+
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
             let off = self.tableView.contentOffset.y
@@ -83,9 +167,7 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
                 present(alert, animated: true, completion: nil)
             
             }
-    
-    
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return insert.count
     }
@@ -94,6 +176,7 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
     let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
     cell.Task1.text = insert[indexPath.row].TaskName
     cell.taskCheck.tag = indexPath.row
+    cell.dateBtn.text = insert[indexPath.row].TaskDate
     cell.taskCheck.addTarget(self, action: #selector(cellbtntapped(sender:)), for: .touchUpInside)
     if insert[indexPath.row].TaskStatus == "Pending"{
     cell.Button.setImage(#imageLiteral(resourceName: "Unchecked"), for: .normal)
@@ -110,12 +193,10 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
         tableView.reloadData()
     }
     
-   //below code Not used
+    //below code Not used
     @IBAction func Add(_ sender: Any) {
         //Namo Server: con.test:8888/db.php
         //Mamp: http://localhost:8888/db.php
-        
-        
             insert.removeAll()
             downloadItems()
             var textField = UITextField()
@@ -211,17 +292,21 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
             var jsonElement = NSDictionary()
         let stocks = NSMutableArray()
         for i in 0 ..< jsonResult.count
-            {
+     
+        {
+            print("The count is \(jsonResult.count)")
             jsonElement = jsonResult[i] as! NSDictionary
                 //the following insures none of the JsonElement values are nil through optional binding
             let stock = StockModel()
             if let TaskName = jsonElement["Taskname"] as? String,
             let TaskStatus = jsonElement["TaskStatus"] as? String,
+            let TaskDate = jsonElement["date"] as? String,
            let Id = jsonElement["Id"] as? String
             {
             print(TaskName)
             print(TaskStatus)
-            insert.append(insertData(TaskName: TaskName, TaskStatus: TaskStatus,Id: Id))
+                
+                insert.append(insertData(TaskName: TaskName, TaskStatus: TaskStatus,TaskDate: TaskDate,Id: Id))
                 }
                 stocks.add(stock)
             }
@@ -243,43 +328,38 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
         var textField = UITextField()
         didselect = "\(insert[indexPath.row].TaskName as! String)"
         print("UpdateFunction \(Int16(insert[indexPath.row].Id as! String) as! Int16)")
-        if   textField.text!.trimmingCharacters(in: .whitespaces).isEmpty{
+        if textField.text!.trimmingCharacters(in: .whitespaces).isEmpty{
             insert.removeAll()
             downloadItems()
-
-                let alert = UIAlertController(title: "Edit", message: "", preferredStyle: UIAlertController.Style.alert)
-                let action = UIAlertAction(title: "update", style: UIAlertAction.Style.default) { [self](action) in
-                    let alertController = UIAlertController(title: "Edit", message: "Successfully updated!", preferredStyle: UIAlertController.Style.alert)
-                    alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default,handler: nil))
-                    
+            let alert = UIAlertController(title: "Edit", message: "", preferredStyle: UIAlertController.Style.alert)
+            let action = UIAlertAction(title: "update", style: UIAlertAction.Style.default) { [self](action) in
+            let alertController = UIAlertController(title: "Edit", message: "Successfully updated!", preferredStyle: UIAlertController.Style.alert)
+            alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default,handler: nil))
+            self.tableView.reloadData()
                     // namo link sever "http://con.test:8888/Task.php"
                     
-                    let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/Edit.php")! as URL)
-                    request.httpMethod = "POST"
-                    let postString = "username=\(getusername as! String)&TaskName=\(textField.text as! String)&TaskStatus=\(insert[indexPath.row].TaskStatus as! String)&Id=\(Int16(insert[indexPath.row].Id as! String) as! Int16)"
+            let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/Edit.php")! as URL)
+            request.httpMethod = "POST"
+            let postString = "username=\(getusername as! String)&TaskName=\(textField.text as! String)&TaskStatus=\(insert[indexPath.row].TaskStatus as! String)&Id=\(Int16(insert[indexPath.row].Id as! String) as! Int16)"
                     print("postString : \(postString)")
-
-                    request.httpBody = postString.data(using: String.Encoding.utf8)
-
-                    let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            request.httpBody = postString.data(using: String.Encoding.utf8)
+            let task = URLSession.shared.dataTask(with: request as URLRequest) {
                         data, response, error in
-
-                        if error != nil {
-                            print("error=\(String(describing: error))")
+            if error != nil {
+            print("error=\(String(describing: error))")
                             return
                         }
-                        print("response = \(String(describing: response))")
-                        let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-                        print("responseString = \(String(describing: responseString))")
-                    }
-                    task.resume()
-                    
-                    self.present(alertController, animated: true, completion: nil)
-                    insert.removeAll()
-                    downloadItems()
-                    self.tableView.reloadData()
-                    }
-                let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+            print("response = \(String(describing: response))")
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(String(describing: responseString))")
+            }
+            task.resume()
+            self.present(alertController, animated: true, completion: nil)
+            insert.removeAll()
+            downloadItems()
+            self.tableView.reloadData()
+                }
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
                     }
             alert.addTextField { [self] (alertTextField) in
                       alertTextField.placeholder = "Edit Task"
@@ -296,14 +376,16 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
             alert.addAction(cancel)
             present(alert, animated: true, completion: nil)
         }
-
+       
     }
     
-    
+    @IBOutlet var popView: UIView!
+    @IBOutlet weak var taskField: UITextField!
+    @IBOutlet weak var dateField: UITextField!
     
     
     func downloadItems() {
-        let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/Retrieve_1.php")! as URL)
+        let request = NSMutableURLRequest(url: NSURL(string: urlpath ?? "https://appstudio.co/iOS/Retrieve_1.php")! as URL)
             request.httpMethod = "POST"
             let postString = "username=\(getusername as! String)"
             print("postString \(postString)")
@@ -316,6 +398,7 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
                 return
               }
               self.parseJSON(data!)
+            
               print("response = \(String(describing: response))")
               let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
               print("responseString = \(String(describing: responseString))")
@@ -345,13 +428,96 @@ let urlPath = "https://appstudio.co/iOS/Retrieve_1.php"
             print("responseString = \(String(describing: responseString))")
             }
             task3.resume()
-        }}
+        }
+    }
+    
+    
+    
+    let start_end_date = UIDatePicker()
+
+    func datepickerbirth(){
+        let toolbar=UIToolbar()
+        toolbar.sizeToFit()
+        let done=UIBarButtonItem(barButtonSystemItem: .done, target:nil, action:#selector(doneselect))
+        toolbar.setItems([done], animated: false)
+        dateField.inputAccessoryView=toolbar
+        dateField.inputView=start_end_date
+        start_end_date.datePickerMode = .date
+    }
+    
+    @objc func doneselect(){
+        let dateformat=DateFormatter()
+        dateformat.dateStyle = .medium
+        dateformat.timeStyle = .none
+        dateformat.dateFormat = "yyyy-MM-dd"
+        let datestring = dateformat.string(from: start_end_date.date)
+        dateField.text="\(datestring)"
+        self.view.endEditing(true)
+    }
+    
+    
+    func animateIn(desiredView:UIView){
+        
+        let backgroundView = self.view
+        backgroundView?.addSubview(desiredView)
+        desiredView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        desiredView.alpha = 0
+        desiredView.center = backgroundView?.center as! CGPoint
+        UIView.animate(withDuration: 0.3, animations: {
+        desiredView.transform = CGAffineTransform(scaleX: 1.0 , y: 1.0)
+        desiredView.alpha = 1
+
+        })
+    }
+    
+    
+    func  animatedismiss(desiredView:UIView){
+        UIView.animate(withDuration: 0.3, animations: {
+            desiredView.transform = CGAffineTransform(scaleX: 1.0 , y: 1.0)
+            desiredView.alpha = 0
+        },completion: { _ in desiredView.removeFromSuperview()} )
+    }
+    
+    
+    @IBAction func addTask(_ sender: Any) {
+        animatedismiss(desiredView: popView)
+        let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/Task.php")! as URL)
+        request.httpMethod = "POST"
+        let postString = "date=\(dateField.text!)&username=\(getusername as! String)&TaskName=\(taskField.text!)&TaskStatus=Pending"
+        request.httpBody = postString.data(using: String.Encoding.utf8)
+        let task1 = URLSession.shared.dataTask(with: request as URLRequest) {
+        data, response, error in
+        if error != nil {
+        print("error=\(String(describing: error))")
+        return
+        }
+        print("response = \(String(describing: response))")
+        let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+        print("responseString = \(String(describing: responseString))")
+        }
+        task1.resume()
+      
+        let task = insertData(TaskName:taskField.text!, TaskStatus:"Pending",TaskDate: dateField.text)
+        self.insert.append(task)
+        taskField.text = ""
+        dateField.text = ""
+        self.tableView.reloadData()
+        
+    }
+    
+    @IBAction func animatedout(_ sender: Any) {
+    animatedismiss(desiredView: popView)
+    }
+    
+    @IBAction func addtodo(_ sender: Any) {
+        animateIn(desiredView: popView)
+    }
         }
 
-
-struct insertData {
+    struct insertData {
     var TaskName:String?
     var TaskStatus:String?
+    var TaskDate: String?
     var Id:String?
     
 }
