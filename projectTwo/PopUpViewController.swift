@@ -15,6 +15,7 @@ class PopUpViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     @IBOutlet weak var ChooseName: UITextField!
     @IBOutlet weak var AddTaskText: UITextField!
     @IBOutlet weak var dateField: UITextField!
+    @IBOutlet weak var disBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!
     var feedItems: NSArray = NSArray()
     var selectedStock : StockModel = StockModel()
@@ -28,6 +29,7 @@ class PopUpViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     var selectednames:[String] = []
     override func viewDidLoad() {
         super.viewDidLoad()
+        disBtn.layer.cornerRadius = 12
         View1.layer.cornerRadius = 10
         Addbtn.layer.cornerRadius = 5
         CancelBtn.layer.cornerRadius = 5
@@ -200,6 +202,9 @@ class PopUpViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         let datestring = dateformat.string(from: start_end_date.date)
         dateField.text="\(datestring)"
         self.view.endEditing(true)
+    }
+    @IBAction func didTaptableDismiss(_ sender: UIButton) {
+        tableView.isHidden = true
     }
     
 }

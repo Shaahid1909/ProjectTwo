@@ -7,6 +7,7 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var Task1: UILabel!
     @IBOutlet weak var dateBtn: UILabel!
     @IBOutlet weak var taskCheck: UIButton!
+    @IBOutlet weak var endDate: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

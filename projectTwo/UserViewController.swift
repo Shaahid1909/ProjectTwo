@@ -16,12 +16,13 @@ class UserViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var feedItems: NSArray = NSArray()
     var selectedStock : StockModel = StockModel()
     let stock = StockModel()
+    var didselect:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        nameLabel.text = username
+        nameLabel.text = name
         downloadItems()
     }
     
@@ -68,6 +69,9 @@ class UserViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         task.resume()
     }
     
+    
+    
+    
     func parseJSON(_ data:Data) {
             var jsonResult = NSArray()
             do{
@@ -95,7 +99,92 @@ class UserViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         DispatchQueue.main.async(execute: { [self] () -> Void in
             itemsDownloaded(items: stocks)
             })
-        }}
+        }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        didselect?.removeAll()
+
+        var textfield = UITextField()
+        if textfield.text!.trimmingCharacters(in: .whitespaces).isEmpty{
+            userTask.removeAll()
+            downloadItems()
+            let alert = UIAlertController(title: "Edit", message: "", preferredStyle: UIAlertController.Style.alert)
+            let action = UIAlertAction(title: "update", style: UIAlertAction.Style.default) { [self](action) in
+                let alertController = UIAlertController(title: "Edit", message: "Successfully updated!", preferredStyle: UIAlertController.Style.alert)
+                alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+                self.tableView.reloadData()
+                
+                let request = NSMutableURLRequest(url: NSURL (string: "")! as URL)
+                request.httpMethod = "POST"
+                let postString = "username=\(username as! String)&TaskName=\(textfield.text as! String)&TaskStatus=\(userTask[indexPath.row].TaskStatus as! String)&Id=\(Int16(userTask[indexPath.row].Id as! String) as! Int16)"
+                request.httpBody = postString.data(using: String.Encoding.utf8)
+                let task = URLSession.shared.dataTask(with: request as URLRequest){
+                    data, response, error in
+                    if error != nil {
+                        print("error=\(String(describing: error))")
+                        return
+                    }
+                    print("response = \(String(describing: response))")
+                    let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+                    print("responseString = \(String(describing: responseString))")
+                    
+                }
+                task.resume()
+                self.present(alertController, animated:
+                                true, completion: nil)
+                userTask.removeAll()
+                downloadItems()
+                self.tableView.reloadData()
+            }
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel){ (action) -> Void in
+                
+            }
+            alert.addTextField { [self] (alerTextField) in
+                alerTextField.placeholder = "Edit Task"
+                alerTextField.text = didselect
+                textfield = alerTextField
+            }
+            alert.addAction(action)
+            alert.addAction(cancel)
+            present(alert, animated: true, completion: nil)
+            
+        }else {
+            let alert = UIAlertController(title: "Alert", message: "Fill All Fields", preferredStyle: UIAlertController.Style.alert)
+            let cancel = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in
+                
+            }
+            alert.addAction(cancel)
+            present(alert, animated: true, completion: nil)
+            }
+        
+        
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let id2 = userTask[indexPath.row]
+           if editingStyle == .delete {
+           userTask.remove(at: indexPath.row)
+           tableView.deleteRows(at: [indexPath], with: .fade)
+            let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/delete.php")! as URL)
+            request.httpMethod = "POST"
+            let postString = "TaskName=\(id2.TaskName as! String)"
+            request.httpBody = postString.data(using: String.Encoding.utf8)
+            let task3 = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            if error != nil {
+            print("error=\(String(describing: error))")
+            return
+            }
+            print("response = \(String(describing: response))")
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(String(describing: responseString))")
+            }
+            task3.resume()
+        }
+    }
+    
+    
+}
 
 struct userTasks {
     var TaskName:String!

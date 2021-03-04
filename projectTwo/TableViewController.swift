@@ -88,7 +88,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         popView.layer.borderColor = UIColor.red.cgColor
         popView.layer.borderWidth = 0.3
         popView.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width * 0.9, height: self.view.bounds.height * 0.4)
-        datepickerbirth()
+        datepicker()
         doneselect()
         Vieww.layer.cornerRadius = 10.0
         Vieww.isHidden = true
@@ -118,9 +118,11 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         }else if Vieww.isHidden == true{
             Vieww.isHidden = false
         }
+        animatedismiss(desiredView: popView)
+        
     }
 
-    
+ 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
             let off = self.tableView.contentOffset.y
             let yPst = self.view.frame.size.height
@@ -130,7 +132,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     @objc private func buttonClicked(_ notification: NSNotification) {
             // do something when you tapped the button
             insert.removeAll()
-            downloadItems()
+
             var textField = UITextField()
                 let alert = UIAlertController(title: "Add your Task", message: "", preferredStyle: UIAlertController.Style.alert)
                 let action = UIAlertAction(title: "Add", style: UIAlertAction.Style.default) { [self](action) in
@@ -172,11 +174,13 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         return insert.count
     }
     
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
     cell.Task1.text = insert[indexPath.row].TaskName
     cell.taskCheck.tag = indexPath.row
     cell.dateBtn.text = insert[indexPath.row].TaskDate
+        cell.endDate.text = insert[indexPath.row].endDate
     cell.taskCheck.addTarget(self, action: #selector(cellbtntapped(sender:)), for: .touchUpInside)
     if insert[indexPath.row].TaskStatus == "Pending"{
     cell.Button.setImage(#imageLiteral(resourceName: "Unchecked"), for: .normal)
@@ -301,12 +305,13 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             if let TaskName = jsonElement["Taskname"] as? String,
             let TaskStatus = jsonElement["TaskStatus"] as? String,
             let TaskDate = jsonElement["date"] as? String,
-           let Id = jsonElement["Id"] as? String
+           let Id = jsonElement["Id"] as? String,
+           let TaskendDate = jsonElement["End_Date"] as? String
             {
             print(TaskName)
             print(TaskStatus)
                 
-                insert.append(insertData(TaskName: TaskName, TaskStatus: TaskStatus,TaskDate: TaskDate,Id: Id))
+                insert.append(insertData(TaskName: TaskName, TaskStatus: TaskStatus,TaskDate: TaskDate,Id: Id,endDate: TaskendDate))
                 }
                 stocks.add(stock)
             }
@@ -325,6 +330,8 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         didselect?.removeAll()
         oldTaskname?.removeAll()
+        animatedismiss(desiredView: popView)
+        Vieww.isHidden = true
         var textField = UITextField()
         didselect = "\(insert[indexPath.row].TaskName as! String)"
         print("UpdateFunction \(Int16(insert[indexPath.row].Id as! String) as! Int16)")
@@ -337,7 +344,6 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default,handler: nil))
             self.tableView.reloadData()
                     // namo link sever "http://con.test:8888/Task.php"
-                    
             let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/Edit.php")! as URL)
             request.httpMethod = "POST"
             let postString = "username=\(getusername as! String)&TaskName=\(textField.text as! String)&TaskStatus=\(insert[indexPath.row].TaskStatus as! String)&Id=\(Int16(insert[indexPath.row].Id as! String) as! Int16)"
@@ -382,6 +388,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     @IBOutlet var popView: UIView!
     @IBOutlet weak var taskField: UITextField!
     @IBOutlet weak var dateField: UITextField!
+    @IBOutlet weak var endDateField: UITextField!
     
     
     func downloadItems() {
@@ -434,8 +441,10 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     
     let start_end_date = UIDatePicker()
+    
+    let endDate = UIDatePicker()
 
-    func datepickerbirth(){
+    func datepicker(){
         let toolbar=UIToolbar()
         toolbar.sizeToFit()
         let done=UIBarButtonItem(barButtonSystemItem: .done, target:nil, action:#selector(doneselect))
@@ -443,6 +452,9 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         dateField.inputAccessoryView=toolbar
         dateField.inputView=start_end_date
         start_end_date.datePickerMode = .date
+        endDateField.inputAccessoryView=toolbar
+        endDateField.inputView=endDate
+        endDate.datePickerMode = .date
     }
     
     @objc func doneselect(){
@@ -452,6 +464,9 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         dateformat.dateFormat = "yyyy-MM-dd"
         let datestring = dateformat.string(from: start_end_date.date)
         dateField.text="\(datestring)"
+        let enddateString = dateformat.string(from: endDate.date)
+        endDateField.text="\(enddateString)"
+        
         self.view.endEditing(true)
     }
     
@@ -483,7 +498,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         animatedismiss(desiredView: popView)
         let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/Task.php")! as URL)
         request.httpMethod = "POST"
-        let postString = "date=\(dateField.text!)&username=\(getusername as! String)&TaskName=\(taskField.text!)&TaskStatus=Pending"
+        let postString = "date=\(dateField.text!)&End_Date=\(endDateField.text!)&username=\(getusername as! String)&TaskName=\(taskField.text!)&TaskStatus=Pending"
         request.httpBody = postString.data(using: String.Encoding.utf8)
         let task1 = URLSession.shared.dataTask(with: request as URLRequest) {
         data, response, error in
@@ -497,10 +512,11 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         }
         task1.resume()
       
-        let task = insertData(TaskName:taskField.text!, TaskStatus:"Pending",TaskDate: dateField.text)
+        let task = insertData(TaskName:taskField.text!, TaskStatus:"Pending",TaskDate: dateField.text,endDate: endDateField.text)
         self.insert.append(task)
         taskField.text = ""
         dateField.text = ""
+        endDateField.text = ""
         self.tableView.reloadData()
         
     }
@@ -511,6 +527,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     @IBAction func addtodo(_ sender: Any) {
         animateIn(desiredView: popView)
+        Vieww.isHidden = true
     }
         }
 
@@ -519,6 +536,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     var TaskStatus:String?
     var TaskDate: String?
     var Id:String?
+    var endDate: String?
     
 }
 
