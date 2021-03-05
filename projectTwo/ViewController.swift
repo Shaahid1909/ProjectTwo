@@ -17,7 +17,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var logBtn: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
     @IBAction func logBtnTapped(_ sender: UIButton) {
-       // reloadInputViews()
+        self.showSpinner(onView: self.view)
+        // reloadInputViews()
    /*
       //  requestPost()
             if userText.text!.trimmingCharacters(in: .whitespaces).isEmpty && passText.text!.trimmingCharacters(in: .whitespaces).isEmpty{
@@ -59,6 +60,7 @@ class ViewController: UIViewController {
                   }
                 alert.addAction(cancel)
                 present(alert, animated: true, completion: nil)
+                self.removeSpinner()
             }else {
               AF.request("https://appstudio.co/iOS/login.php", method: .post, parameters: parameters).responseJSON
               {[self]Response in
@@ -102,6 +104,7 @@ class ViewController: UIViewController {
                         }
                       alert.addAction(cancel)
                       present(alert, animated: true, completion: nil)
+                        self.removeSpinner()
                     
                   
                 
@@ -183,6 +186,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         errorLabel.alpha = 0
        downloadItems()
+        self.removeSpinner()
         //requestPost()
     }
   

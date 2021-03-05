@@ -15,6 +15,7 @@ class PopUpViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     @IBOutlet weak var ChooseName: UITextField!
     @IBOutlet weak var AddTaskText: UITextField!
     @IBOutlet weak var dateField: UITextField!
+    @IBOutlet weak var enddateField: UITextField!
     @IBOutlet weak var disBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!
     var feedItems: NSArray = NSArray()
@@ -73,7 +74,7 @@ class PopUpViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         for i in Selected{
             let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/Task.php")! as URL)
             request.httpMethod = "POST"
-            let postString = "date=\(dateField.text!)&username=\(i as! String)&TaskName=\(AddTaskText.text!)&TaskStatus=Pending"
+            let postString = "date=\(dateField.text!)&End_Date=\(enddateField.text!)&username=\(i as! String)&TaskName=\(AddTaskText.text!)&TaskStatus=Pending"
             print("postString : \(postString)")
             request.httpBody = postString.data(using: String.Encoding.utf8)
             let task = URLSession.shared.dataTask(with: request as URLRequest) {
@@ -183,6 +184,7 @@ class PopUpViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     }}
     
     let start_end_date = UIDatePicker()
+    let end_date = UIDatePicker()
 
     func datepickerbirth(){
         let toolbar=UIToolbar()
@@ -192,7 +194,9 @@ class PopUpViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         dateField.inputAccessoryView=toolbar
         dateField.inputView=start_end_date
         start_end_date.datePickerMode = .date
-    }
+        enddateField.inputAccessoryView=toolbar
+        enddateField.inputView=end_date
+        end_date.datePickerMode = .date    }
     
     @objc func doneselect(){
         let dateformat=DateFormatter()
@@ -201,6 +205,8 @@ class PopUpViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         dateformat.dateFormat = "yyyy-MM-dd"
         let datestring = dateformat.string(from: start_end_date.date)
         dateField.text="\(datestring)"
+        let datestring1 = dateformat.string(from: end_date.date)
+        enddateField.text="\(datestring1)"
         self.view.endEditing(true)
     }
     @IBAction func didTaptableDismiss(_ sender: UIButton) {
