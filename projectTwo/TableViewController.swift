@@ -434,8 +434,8 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
       //  didselect?.removeAll()
-        sdateSelect?.removeAll()
-        edateSelect?.removeAll()
+       // sdateSelect?.removeAll()
+       // edateSelect?.removeAll()
         oldTaskname?.removeAll()
         animatedismiss(desiredView: popView)
         Vieww.isHidden = true
@@ -443,8 +443,8 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         sdateSelect = "\(insert[indexPath.row].TaskDate as! String)"
         edateSelect = "\(insert[indexPath.row].endDate as! String)"
         print("UpdateFunction \(Int16(insert[indexPath.row].Id as! String) as! Int16)")
-            insert.removeAll()
-            downloadItems()
+            
+            
             let alert = UIAlertController(title: "Edit", message: "", preferredStyle: UIAlertController.Style.alert)
             let action = UIAlertAction(title: "update", style: UIAlertAction.Style.default) { [self](action) in
             let alertController = UIAlertController(title: "Edit", message: "Successfully updated!", preferredStyle: UIAlertController.Style.alert)
@@ -458,6 +458,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                 
                 let postString = "username=\(getusername as! String)&TaskName=\(textField.text as! String)&TaskStatus=\(insert[indexPath.row].TaskStatus as! String)&date=\(stextField.text as! String)&End_Date=\(etextField.text as! String)&Id=\(Int16(insert[indexPath.row].Id as! String) as! Int16)"
                     print("postString : \(postString)")
+                insert.removeAll()
             request.httpBody = postString.data(using: String.Encoding.utf8)
             let task = URLSession.shared.dataTask(with: request as URLRequest) {
                         data, response, error in
@@ -468,11 +469,11 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             print("response = \(String(describing: response))")
             let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
             print("responseString = \(String(describing: responseString))")
+                downloadItems()
             }
             task.resume()
             self.present(alertController, animated: true, completion: nil)
-            insert.removeAll()
-            downloadItems()
+           
             self.tableView.reloadData()
                 }
             let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
