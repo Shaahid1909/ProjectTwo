@@ -15,6 +15,10 @@ class UserViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var userTask = [userTasks]()
     var feedItems: NSArray = NSArray()
     var didselect:String?
+    @IBOutlet weak var chView: UIView!
+    @IBOutlet weak var disView: UIButton!
+    @IBOutlet weak var disv: UIView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +26,10 @@ class UserViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         tableView.dataSource = self
         nameLabel.text = name
         downloadItems()
+        chView.layer.cornerRadius = 12.0
+        disView.layer.cornerRadius = 12.0
+        disv.layer.cornerRadius = 12.0
+        tableView.layer.cornerRadius = 12.0
     }
     
     @IBAction func dismiss(_ sender: Any) {
@@ -63,6 +71,7 @@ class UserViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             print("response = \(String(describing: response))")
             let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
             print("responseString = \(String(describing: responseString))")
+            
         }
         task.resume()
     }

@@ -151,18 +151,20 @@ class ViewController: UIViewController {
             task.resume()
             }
     
+    
+    
     func downloadItems() {
    /* let urlPath = "https://appstudio.co/iOS/login.php"
-        let url: URL = URL(string: urlPath)!
-        let defaultSession = Foundation.URLSession(configuration: URLSessionConfiguration.default)
-        let task = defaultSession.dataTask(with: url) { (data, response, error) in
-        if error != nil {
-        print("Error")
-        }else {
-        print("stocks downloaded")
-        self.parseJSON(data!)
-        }}
-        task.resume()*/
+    let url: URL = URL(string: urlPath)!
+    let defaultSession = Foundation.URLSession(configuration: URLSessionConfiguration.default)
+    let task = defaultSession.dataTask(with: url) { (data, response, error) in
+    if error != nil {
+    print("Error")
+    }else {
+    print("stocks downloaded")
+    self.parseJSON(data!)
+    }}
+    task.resume()*/
     let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/login1.php")! as URL)
         request.httpMethod = "POST"
         let postString = "username=\(userText.text as! String)&password=\(passText.text as! String)"

@@ -281,6 +281,11 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             cell.remainingdays.text = "Today last date!"
             cell.remainingdays.textColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         }
+        
+       /* else if conValue ?? 0 > 0 || conValue ?? 0 == 0 || conValue ?? 0 < 0 && insert[indexPath.row].TaskStatus == "Completed"{
+            cell.remainingdays.text  = "Task Completed"
+            cell.remainingdays.textColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        }*/
     if insert[indexPath.row].TaskStatus == "Pending"{
     cell.Button.setImage(#imageLiteral(resourceName: "Unchecked"), for: .normal)
     } else{
@@ -413,6 +418,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             print(TaskStatus)
                 
                 insert.append(insertData(TaskName: TaskName, TaskStatus: TaskStatus,TaskDate: TaskDate,Id: Id,endDate: TaskendDate, remainDays: redays))
+             
                 }
             }
         DispatchQueue.main.async(execute: { [self] () -> Void in
@@ -644,7 +650,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     
     @IBAction func addTask(_ sender: Any) {
-       
+        insert.removeAll()
         animatedismiss(desiredView: popView)
         let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/Task.php")! as URL)
         request.httpMethod = "POST"
@@ -659,10 +665,14 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         print("response = \(String(describing: response))")
         let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
         print("responseString = \(String(describing: responseString))")
+            self.downloadItems()
         }
         task1.resume()
-        let task = insertData(TaskName:taskField.text!, TaskStatus:"Pending",TaskDate: dateField.text,endDate: endDateField.text)
-        self.insert.append(task)
+
+   //   let task = insertData(TaskName:taskField.text!, TaskStatus:"Pending",TaskDate: dateField.text,endDate: endDateField.text)
+    //  self.insert.append(task)
+   //   insert.removeAll()
+   //   downloadItems()
         taskField.text = ""
         dateField.text = ""
         endDateField.text = ""
