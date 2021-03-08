@@ -19,11 +19,7 @@ class SignupView: UIViewController,UITextFieldDelegate {
     var mail_Add:String?
     var signup = [signdt]()
 
-
-    var feedItems: NSArray = NSArray()
-    var selectedStock : StockModel = StockModel()
-    
-    
+    var feedItems: NSArray = NSArray()    
     
     @IBAction func signupTapped(_ sender: UIButton) {
         Verify()
@@ -97,7 +93,6 @@ class SignupView: UIViewController,UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         messageLabel.alpha = 0
         nameTextF.delegate = self
         nameTextF.becomeFirstResponder()
@@ -124,51 +119,37 @@ class SignupView: UIViewController,UITextFieldDelegate {
             {
             jsonElement = jsonResult[i] as! NSDictionary
                 //the following insures none of the JsonElement values are nil through optional binding
-            let stock = StockModel()
+     
             if let Name = jsonElement["name"] as? String,
             let userName = jsonElement["username"] as? String,
             let Password = jsonElement["password"] as? String            {
                 signup.append(signdt(name: Name, username: userName, password: Password))
                 }
-                stocks.add(stock)
             }
         DispatchQueue.main.async(execute: { [self] () -> Void in
-                itemsDownloaded(items: stocks)
         })
         }
-    
-    
-    func itemsDownloaded(items: NSArray) {
-        feedItems = items
-   
-      }
     
     
     func downloadItems() {
         let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/login1.php")! as URL)
         request.httpMethod = "POST"
         let postString = "username=\(userNameTextF.text as! String)"
-
         print("postString \(postString)")
-
         request.httpBody = postString.data(using: String.Encoding.utf8)
-
         let task = URLSession.shared.dataTask(with: request as URLRequest) {
             data, response, error in
-
             if error != nil {
                 print("error=\(String(describing: error))")
                 return
             }
             self.parseJSON(data!)
             print("response = \(String(describing: response))")
-
             let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
             print("responseString = \(String(describing: responseString))")
         }
             task.resume()
     }}
-
 
 struct signdt {
     var name:String?

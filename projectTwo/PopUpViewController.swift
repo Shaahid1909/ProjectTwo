@@ -19,8 +19,6 @@ class PopUpViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     @IBOutlet weak var disBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!
     var feedItems: NSArray = NSArray()
-    var selectedStock : StockModel = StockModel()
-    let stock = StockModel()
     var proofs:[String] = []
     var proof = [retrieveProof]()
     var namelist:[String:String] = [:]
@@ -131,7 +129,6 @@ class PopUpViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             {
                 jsonElement = jsonResult[i] as! NSDictionary
                 print("jsonElement : \(jsonElement)")
-                let stock = StockModel()
                 if let name = jsonElement["name"] as? String,
                    let username = jsonElement["username"] as? String
                 {
@@ -140,9 +137,6 @@ class PopUpViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                     setstring.contains(jsonElement["username"] as! String)
                     namelist.updateValue("\(jsonElement["name"] as! String)", forKey: "\(jsonElement["username"] as! String)")
                 }
-                
-                stocks.add(stock)
-                
             }
         let groupByCategory = Dictionary(grouping: proof) { (device) -> String in
                 return device.name!

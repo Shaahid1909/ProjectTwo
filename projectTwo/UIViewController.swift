@@ -17,10 +17,9 @@ extension UIViewController {
         let ai = UIActivityIndicatorView.init(style: .whiteLarge)
         ai.startAnimating()
         ai.center = spinnerView.center
-        
         DispatchQueue.main.async {
-            spinnerView.addSubview(ai)
-            onView.addSubview(spinnerView)
+        spinnerView.addSubview(ai)
+        onView.addSubview(spinnerView)
         }
         
         vSpinner = spinnerView

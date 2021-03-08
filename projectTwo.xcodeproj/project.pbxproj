@@ -27,8 +27,6 @@
 		8C9778C725E64B7400EC87FC /* AdminCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9778C625E64B7400EC87FC /* AdminCell.swift */; };
 		8CFE883E25DBA21A0016EB59 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFE883D25DBA21A0016EB59 /* TableViewController.swift */; };
 		8CFE884325DBA2220016EB59 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFE884225DBA2220016EB59 /* TableViewCell.swift */; };
-		8CFE885025DBF3B10016EB59 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFE884F25DBF3B10016EB59 /* FeedModel.swift */; };
-		8CFE885525DBF3B90016EB59 /* StockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFE885425DBF3B90016EB59 /* StockModel.swift */; };
 		DD8854DFAE303594B0467C97 /* Pods_projectTwoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45054B7083F468AE853910BC /* Pods_projectTwoTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -80,8 +78,6 @@
 		8C9778C625E64B7400EC87FC /* AdminCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminCell.swift; sourceTree = "<group>"; };
 		8CFE883D25DBA21A0016EB59 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		8CFE884225DBA2220016EB59 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
-		8CFE884F25DBF3B10016EB59 /* FeedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
-		8CFE885425DBF3B90016EB59 /* StockModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockModel.swift; sourceTree = "<group>"; };
 		A35572259BD1B28D2D9EB374 /* Pods-projectTwoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-projectTwoTests.release.xcconfig"; path = "Target Support Files/Pods-projectTwoTests/Pods-projectTwoTests.release.xcconfig"; sourceTree = "<group>"; };
 		AD5B5D58B33CB407C1BC4A4D /* Pods-projectTwo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-projectTwo.debug.xcconfig"; path = "Target Support Files/Pods-projectTwo/Pods-projectTwo.debug.xcconfig"; sourceTree = "<group>"; };
 		B0AF1867582E72DCFB5D3EB3 /* Pods_projectTwo_projectTwoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_projectTwo_projectTwoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,8 +170,6 @@
 				8C5C3F9425D6B9C800796935 /* SignupView.swift */,
 				8CFE883D25DBA21A0016EB59 /* TableViewController.swift */,
 				8CFE884225DBA2220016EB59 /* TableViewCell.swift */,
-				8CFE884F25DBF3B10016EB59 /* FeedModel.swift */,
-				8CFE885425DBF3B90016EB59 /* StockModel.swift */,
 				8C9778C125E64A6400EC87FC /* AdminViewController.swift */,
 				8C9778C625E64B7400EC87FC /* AdminCell.swift */,
 				8C95307925E7CE980041178D /* PopUpViewController.swift */,
@@ -443,7 +437,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C9778C225E64A6400EC87FC /* AdminViewController.swift in Sources */,
-				8CFE885525DBF3B90016EB59 /* StockModel.swift in Sources */,
 				8C5C3F9525D6B9C800796935 /* SignupView.swift in Sources */,
 				8C95307A25E7CE990041178D /* PopUpViewController.swift in Sources */,
 				8C95307F25E7CF230041178D /* UserTableViewCell.swift in Sources */,
@@ -451,7 +444,6 @@
 				8C5C3F6225D6B8EF00796935 /* AppDelegate.swift in Sources */,
 				8C95308925E7DC6E0041178D /* UserViewController.swift in Sources */,
 				8CFE884325DBA2220016EB59 /* TableViewCell.swift in Sources */,
-				8CFE885025DBF3B10016EB59 /* FeedModel.swift in Sources */,
 				8C95308425E7CF8B0041178D /* ChooseTableViewCell.swift in Sources */,
 				8C9778C725E64B7400EC87FC /* AdminCell.swift in Sources */,
 				8CFE883E25DBA21A0016EB59 /* TableViewController.swift in Sources */,

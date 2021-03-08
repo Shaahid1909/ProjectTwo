@@ -71,7 +71,7 @@ class AdminViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         {
             jsonElement = jsonResult[i] as! NSDictionary
             print("jsonElement : \(jsonElement)")
-            let stock = StockModel()
+          
             print("\(jsonElement["CountTask"] as? String) : \(jsonElement["TaskStatus"] as! String)")
             
             if jsonElement["TaskStatus"] as? String == "Completed"{
@@ -92,7 +92,6 @@ class AdminViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                 adData.append(AdminData(name: name,username: username,counttask: taskcount))
                 keyValue.updateValue(jsonElement["name"] as! String, forKey: jsonElement["username"] as! String)
             }
-            stocks.add(stock)
         }
     let groupByCategory = Dictionary(grouping: adData) { (device) -> String in
         return device.name!
@@ -144,7 +143,6 @@ class AdminViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         }
       }
  
-    
     
 }
 struct AdminData {

@@ -14,8 +14,6 @@ class UserViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var username:String?
     var userTask = [userTasks]()
     var feedItems: NSArray = NSArray()
-    var selectedStock : StockModel = StockModel()
-    let stock = StockModel()
     var didselect:String?
     
     override func viewDidLoad() {
@@ -84,7 +82,6 @@ class UserViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             for i in 0 ..< jsonResult.count
             {
                 jsonElement = jsonResult[i] as! NSDictionary
-                let stock = StockModel()
                 //the following insures none of the JsonElement values are nil through optional binding
                 print("jsonElement \(jsonElement["Id"] as? String)")
                 if let TaskName = jsonElement["Taskname"] as? String,
@@ -93,7 +90,6 @@ class UserViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                     userTask.append(userTasks(TaskName: TaskName, TaskStatus: TaskStatus, Id: Id))
                     print(userTask)
                 }
-                stocks.add(stock)
             }
             
         DispatchQueue.main.async(execute: { [self] () -> Void in
@@ -127,7 +123,6 @@ class UserViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                     print("response = \(String(describing: response))")
                     let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
                     print("responseString = \(String(describing: responseString))")
-                    
                 }
                 task.resume()
                 self.present(alertController, animated:
@@ -182,8 +177,6 @@ class UserViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             task3.resume()
         }
     }
-    
-    
 }
 
 struct userTasks {

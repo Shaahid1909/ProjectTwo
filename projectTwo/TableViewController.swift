@@ -10,7 +10,6 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     @IBOutlet weak var tableView: UITableView!
     private let button = UIButton(type: UIButton.ButtonType.custom) as UIButton
     var feedItems: NSArray = NSArray()
-    var selectedStock : StockModel = StockModel()
     var insert = [insertData]()
     var didselect:String?
     var oldTaskname:String?
@@ -64,30 +63,29 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         tableView.reloadData()
         Vieww.isHidden = true
    
-        
     }
 
         @IBOutlet var Vieww: UIView!
          
         @IBAction func Completed(_ sender: UIButton) {
         
-            urlpath?.removeAll()
-            insert.removeAll()
-            urlpath = "https://appstudio.co/iOS/Completed.php"
-            downloadItems()
-            tableView.reloadData()
-            Vieww.isHidden = true
+         urlpath?.removeAll()
+         insert.removeAll()
+         urlpath = "https://appstudio.co/iOS/Completed.php"
+         downloadItems()
+         tableView.reloadData()
+         Vieww.isHidden = true
             
          }
     
         @IBAction func Pending(_ sender: UIButton) {
             
-            urlpath?.removeAll()
-            insert.removeAll()
-            urlpath = "https://appstudio.co/iOS/Pending.php"
-            downloadItems()
-            tableView.reloadData()
-            Vieww.isHidden = true
+         urlpath?.removeAll()
+         insert.removeAll()
+         urlpath = "https://appstudio.co/iOS/Pending.php"
+         downloadItems()
+         tableView.reloadData()
+         Vieww.isHidden = true
             
          }
        @IBAction func pastBtn(_ sender: UIButton) {
@@ -147,9 +145,9 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         button.layer.shadowOffset = CGSize.zero
         button.layer.zPosition = 1
         view.addSubview(button)
-      start()
+        start()
         end()
-      start1()
+        start1()
         end1()
     }
     
@@ -161,19 +159,22 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             Vieww.isHidden = false
         }
         animatedismiss(desiredView: popView)
-        
     }
+    
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
             let off = self.tableView.contentOffset.y
             let yPst = self.view.frame.size.height
             button.frame = CGRect(x:310, y:700, width: button.frame.size.width, height: button.frame.size.height)
         }
-
+    
+//floating button action
     @objc private func buttonClicked(_ notification: NSNotification) {
             // do something when you tapped the button
            // insert.removeAll()
-            var textField = UITextField()
+                Vieww.isHidden = true
+                animatedismiss(desiredView: popView)
+                var textField = UITextField()
                 let alert = UIAlertController(title: "Add your Task", message: "", preferredStyle: UIAlertController.Style.alert)
                 let action = UIAlertAction(title: "Add", style: UIAlertAction.Style.default) { [self](action) in
                 let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/Task.php")! as URL)
@@ -204,45 +205,37 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                 alertTextField.placeholder = "Create new task"
                 textField = alertTextField
                 }
-        alert.addTextField { [self] (textField1) in
-          let toolbar=UIToolbar()
-          toolbar.sizeToFit()
+                alert.addTextField { [self] (textField1) in
+                let toolbar=UIToolbar()
+                toolbar.sizeToFit()
      //   self.start_end_date2 = UIDatePicker(frame:CGRect(x: 0, y: self.view.frame.size.height - 220, width:self.view.frame.size.width, height: 216))
-     
-           // start_end_date.datePickerMode = .date
+    // start_end_date.datePickerMode = .date
             let done1=UIBarButtonItem(barButtonSystemItem: .done, target:self, action:#selector(start1))
             toolbar.setItems([done1], animated: false)
             textField1.inputAccessoryView=toolbar
             textField1.inputView=start_end_date1
             textField1.placeholder = "Choose Start Date"
-         
             start_end_date1.datePickerMode = .date
             stextField1 = textField1
-
           }
 
     alert.addTextField { [self] (textField2) in
           let toolbar=UIToolbar()
           toolbar.sizeToFit()
       //      self.endDate2 = UIDatePicker(frame:CGRect(x: 0, y: self.view.frame.size.height - 220, width:self.view.frame.size.width, height: 216))
-            
-            
           let done2=UIBarButtonItem(barButtonSystemItem: .done, target:self, action:#selector(end1))
-            toolbar.setItems([done2], animated: false)
-            textField2.inputAccessoryView=toolbar
-            textField2.inputView=endDate1
-            textField2.placeholder = "Choose End Date"
-          
-            endDate1.datePickerMode = .date
-            etextField1 = textField2
-            
+          toolbar.setItems([done2], animated: false)
+          textField2.inputAccessoryView=toolbar
+          textField2.inputView=endDate1
+          textField2.placeholder = "Choose End Date"
+          endDate1.datePickerMode = .date
+          etextField1 = textField2
          //   endDate.datePickerMode = .date
           }
-                alert.addAction(action)
-                alert.addAction(cancel)
-                present(alert, animated: true, completion: nil)
-            
-            }
+          alert.addAction(action)
+          alert.addAction(cancel)
+          present(alert, animated: true, completion: nil)
+          }
     
     @objc func start1(){
         let dateformat=DateFormatter()
@@ -252,7 +245,6 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         let sdatestring = dateformat.string(from: start_end_date1.date)
         stextField1.text="\(sdatestring as! String)"
         self.view.endEditing(true)
-        
     }
 
     
@@ -265,7 +257,6 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         etextField1.text="\(edateString as! String)"
         self.view.endEditing(true)
     }
-
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return insert.count
@@ -296,7 +287,6 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         cell.Button.setImage(#imageLiteral(resourceName: "Checked"), for: .normal)
         cell.remainingdays.text = "Task Completed"
         cell.remainingdays.textColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-      
     }
             return cell
     }
@@ -412,7 +402,6 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             print("The count is \(jsonResult.count)")
             jsonElement = jsonResult[i] as! NSDictionary
                 //the following insures none of the JsonElement values are nil through optional binding
-            let stock = StockModel()
             if let TaskName = jsonElement["Taskname"] as? String,
             let TaskStatus = jsonElement["TaskStatus"] as? String,
             let TaskDate = jsonElement["date"] as? String,
@@ -425,7 +414,6 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                 
                 insert.append(insertData(TaskName: TaskName, TaskStatus: TaskStatus,TaskDate: TaskDate,Id: Id,endDate: TaskendDate, remainDays: redays))
                 }
-                stocks.add(stock)
             }
         DispatchQueue.main.async(execute: { [self] () -> Void in
                 itemsDownloaded(items: stocks)
@@ -438,7 +426,6 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         self.tableView.reloadData()
       }
     
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
       //  didselect?.removeAll()
         sdateSelect?.removeAll()
@@ -446,7 +433,6 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         oldTaskname?.removeAll()
         animatedismiss(desiredView: popView)
         Vieww.isHidden = true
-       
         didselect = "\(insert[indexPath.row].TaskName as! String)"
         sdateSelect = "\(insert[indexPath.row].TaskDate as! String)"
         edateSelect = "\(insert[indexPath.row].endDate as! String)"
@@ -494,7 +480,6 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
               let toolbar=UIToolbar()
               toolbar.sizeToFit()
          //   self.start_end_date2 = UIDatePicker(frame:CGRect(x: 0, y: self.view.frame.size.height - 220, width:self.view.frame.size.width, height: 216))
-         
                // start_end_date.datePickerMode = .date
                 let done1=UIBarButtonItem(barButtonSystemItem: .done, target:self, action:#selector(start))
                 toolbar.setItems([done1], animated: false)
@@ -504,15 +489,12 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                 textField1.text = sdateSelect
                 start_end_date2.datePickerMode = .date
                 stextField = textField1
-    
               }
  
         alert.addTextField { [self] (textField2) in
               let toolbar=UIToolbar()
               toolbar.sizeToFit()
           //      self.endDate2 = UIDatePicker(frame:CGRect(x: 0, y: self.view.frame.size.height - 220, width:self.view.frame.size.width, height: 216))
-                
-                
               let done2=UIBarButtonItem(barButtonSystemItem: .done, target:self, action:#selector(end))
                 toolbar.setItems([done2], animated: false)
                 textField2.inputAccessoryView=toolbar
@@ -521,15 +503,11 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                 textField2.text = edateSelect
                 endDate2.datePickerMode = .date
                 etextField = textField2
-                
              //   endDate.datePickerMode = .date
-              
               }
                 alert.addAction(action)
             alert.addAction(cancel)
                 present(alert, animated: true, completion: nil)
-        
-       
        
     }
     
@@ -545,7 +523,6 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             let postString = "username=\(getusername as! String)"
             print("postString \(postString)")
             request.httpBody = postString.data(using: String.Encoding.utf8)
-        
         let task = URLSession.shared.dataTask(with: request as URLRequest) {
               data, response, error in
               if error != nil {
@@ -553,7 +530,6 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                 return
               }
               self.parseJSON(data!)
-            
               print("response = \(String(describing: response))")
               let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
               print("responseString = \(String(describing: responseString))")
@@ -561,8 +537,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             task.resume()
         
     }
-    
- 
+
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let id2 = insert[indexPath.row]
            if editingStyle == .delete {
@@ -585,8 +560,6 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             task3.resume()
         }
     }
-    
-    
     
     func datepicker(){
         let toolbar=UIToolbar()
@@ -635,7 +608,6 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         let sdatestring = dateformat.string(from: start_end_date2.date)
         stextField.text="\(sdatestring as! String)"
         self.view.endEditing(true)
-        
     }
 
     
@@ -650,10 +622,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     }
     
     
-    
-    
     func animateIn(desiredView:UIView){
-        
         let backgroundView = self.view
         backgroundView?.addSubview(desiredView)
         desiredView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
@@ -662,7 +631,6 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         UIView.animate(withDuration: 0.3, animations: {
         desiredView.transform = CGAffineTransform(scaleX: 1.0 , y: 1.0)
         desiredView.alpha = 1
-
         })
     }
     
@@ -704,8 +672,6 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     @IBAction func animatedout(_ sender: Any) {
     animatedismiss(desiredView: popView)
-  
-  
     }
     
     @IBAction func addtodo(_ sender: Any) {
@@ -721,6 +687,5 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     var Id:String?
     var endDate: String?
     var remainDays: String?
-    
 }
 

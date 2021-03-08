@@ -5,51 +5,15 @@ import Alamofire
 class ViewController: UIViewController {
     
     var feedItems: NSArray = NSArray()
-    var selectedStock : StockModel = StockModel()
     var log = [logdetails]()
     var mail_add: String?
-    
     var userrname:String?
-    
-    
     @IBOutlet weak var userText: UITextField!
     @IBOutlet weak var passText: UITextField!
     @IBOutlet weak var logBtn: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
     @IBAction func logBtnTapped(_ sender: UIButton) {
         self.showSpinner(onView: self.view)
-        // reloadInputViews()
-   /*
-      //  requestPost()
-            if userText.text!.trimmingCharacters(in: .whitespaces).isEmpty && passText.text!.trimmingCharacters(in: .whitespaces).isEmpty{
-                let alert = UIAlertController(title: "Alert", message: "Fill all the fields", preferredStyle: UIAlertController.Style.alert)
-                let cancel = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in
-                  }
-                alert.addAction(cancel)
-                present(alert, animated: true, completion: nil)
-            }else {
-                downloadItems()
-                
-            }
-        
-        if userText.text == "ad@admin.com" && passText.text == "1234"{
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                      let vc = storyBoard.instantiateViewController(withIdentifier: "AdView") as! AdminViewController
-                      // vc.pushViewController(vc, animated: true)
-                      vc.modalPresentationStyle = .fullScreen
-                      self.present(vc, animated: true, completion: nil)
-                      vc.listnames = userText.text
-                
-        }else if log.contains(where: { n in n.username == userText.text }){
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                      let navigationController = storyBoard.instantiateViewController(withIdentifier: "HomeNavigationContoller") as! UINavigationController
-                      let vc = storyBoard.instantiateViewController(withIdentifier: "HomeView") as! TableViewController
-                      navigationController.pushViewController(vc, animated: true)
-                      navigationController.modalPresentationStyle = .fullScreen
-                      self.present(navigationController, animated: true, completion: nil)
-                      vc.getusername = userText.text
-        }
-        */
         let parameters: Parameters = ["username":userText.text!,"password":passText.text!]
          //   activityindicator.isHidden = false
          //   activityindicator.startAnimating()
@@ -105,74 +69,10 @@ class ViewController: UIViewController {
                       alert.addAction(cancel)
                       present(alert, animated: true, completion: nil)
                         self.removeSpinner()
-                    
-                  
-                
                     }}}}}
-            
-    /*    else {
-                let alert = UIAlertController(title: "Alert", message: "Incorrect Credentials", preferredStyle: UIAlertController.Style.alert)
-                let cancel = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in
-                  }
-                alert.addAction(cancel)
-                present(alert, animated: true, completion: nil)
-              }
-        
-        
-       */
-             
-    }
-        
- /*
-      downloadItems()
-        if userText.text?.isEmpty != true && passText.text?.isEmpty != true{
-       for Verify in log{
-              if userText.text == Verify.username && passText.text == Verify.password{
-                print("Log in successful \(Verify.username) \(Verify.password) \(Verify.password)")
-              let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let navigationController = storyBoard.instantiateViewController(withIdentifier: "HomeNavigationContoller") as! UINavigationController
-                let vc = storyBoard.instantiateViewController(withIdentifier: "HomeView") as! TableViewController
-                navigationController.pushViewController(vc, animated: true)
-                navigationController.modalPresentationStyle = .fullScreen
-                self.present(navigationController, animated: true, completion: nil)
 
-            //    let vcpass = storyBoard.instantiateViewController(withIdentifier: "signupPass") as! SignupView
-                vc.getusername = userText.text
-              }else{
-                print("Failed Error")
-                
-              }
-       }
-          //  let alertController = UIAlertController(title: "Alert", message: "Incorrect Credentials", preferredStyle: UIAlertController.Style.alert)
-       //     alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default,handler: nil))
-          //  self.present(alertController, animated: true, completion: nil)
-         //   print("Login fail")
-            }else{
-                let alert = UIAlertController(title: "Alert", message: "Fill All Fields", preferredStyle: UIAlertController.Style.alert)
-                let cancel = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in
-                  }
-                alert.addAction(cancel)
-                present(alert, animated: true, completion: nil)
-              }
     }
         
- /*       let request = NSMutableURLRequest(url: NSURL(string: "http://localhost:8888/checklog.php")! as URL)
-        request.httpMethod = "POST"
-        let postString = "username=\(userText.text as! String)&password=\(passText.text as! String)"
-        request.httpBody = postString.data(using: String.Encoding.utf8)
-        let task3 = URLSession.shared.dataTask(with: request as URLRequest) {
-        data, response, error in
-        if error != nil {
-        print("error=\(String(describing: error))")
-        return
-        }
-        print("response = \(String(describing: response))")
-        let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-        print("responseString = \(String(describing: responseString))")
-        }
-        task3.resume()
-    */
- */
     
     @IBAction func signupBtnTapped(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -199,7 +99,6 @@ class ViewController: UIViewController {
         
     }
     
-    
     func parseJSON(_ data:Data) {
             var jsonResult = NSArray()
             do{
@@ -212,7 +111,6 @@ class ViewController: UIViewController {
             for i in 0 ..< jsonResult.count
             {
             jsonElement = jsonResult[i] as! NSDictionary
-            let stock = StockModel()
             if let Username = jsonElement["username"] as? String,
             let Password = jsonElement["password"] as? String
                 {
@@ -221,10 +119,7 @@ class ViewController: UIViewController {
                 log.append(logdetails(username: Username, password: Password))
                //log.username = Username
               // log.password = Password
-          //  print("The username is : \(log.username)")
-          //  print("The password is : \(log.password)")
                 }
-                stocks.add(stock)
             }
             
         DispatchQueue.main.async(execute: { [self] () -> Void in
@@ -255,8 +150,6 @@ class ViewController: UIViewController {
                  }}}
             task.resume()
             }
-
-    
     
     func downloadItems() {
    /* let urlPath = "https://appstudio.co/iOS/login.php"
@@ -286,17 +179,13 @@ class ViewController: UIViewController {
         let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
         print("responseString = \(String(describing: responseString))")
         }
-        
         task.resume()
-        
         }
    
     
     func itemsDownloaded(items: NSArray) {
         feedItems = items
-    
 }}
-
 
 
 struct logdetails {
