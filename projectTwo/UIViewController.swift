@@ -1,10 +1,3 @@
-//
-//  UIViewController.swift
-//  MediYoga
-//
-//  Created by Admin on 26/11/20.
-//  Copyright © 2020 Admin. All rights reserved.
-//
 
 import UIKit
 

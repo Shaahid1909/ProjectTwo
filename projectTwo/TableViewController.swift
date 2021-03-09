@@ -28,6 +28,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     var stextField1 = UITextField()
     var etextField1 = UITextField()
     var textField = UITextField()
+    @IBOutlet weak var conView: UIView!
     
     @IBAction func logout(_ sender: Any) {
         self.showSpinner(onView: self.view)
@@ -270,6 +271,8 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     cell.dateBtn.text = insert[indexPath.row].TaskDate
     cell.endDate.text = insert[indexPath.row].endDate
     cell.taskCheck.addTarget(self, action: #selector(cellbtntapped(sender:)), for: .touchUpInside)
+        cell.editBtn.tag = indexPath.row
+        cell.editBtn.addTarget(self, action: #selector(editcellbtntapped(sender:)), for: .touchUpInside)
         let conValue = Int(insert[indexPath.row].remainDays ?? "")
         if conValue ?? 0 < 0 && insert[indexPath.row].TaskStatus == "Pending"{
             cell.remainingdays.text = "Task date exceeded by \(insert[indexPath.row].remainDays!)"
@@ -390,6 +393,93 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         task2.resume()
         }
     }
+    
+    @objc func editcellbtntapped(sender:UIButton){
+        let tag = sender.tag
+        let indexPath = IndexPath(row: tag, section: 0)
+        
+        oldTaskname?.removeAll()
+        animatedismiss(desiredView: popView)
+        Vieww.isHidden = true
+        didselect = "\(insert[indexPath.row].TaskName as! String)"
+        sdateSelect = "\(insert[indexPath.row].TaskDate as! String)"
+        edateSelect = "\(insert[indexPath.row].endDate as! String)"
+        print("UpdateFunction \(Int16(insert[indexPath.row].Id as! String) as! Int16)")
+            
+            
+            let alert = UIAlertController(title: "Edit", message: "", preferredStyle: UIAlertController.Style.alert)
+            let action = UIAlertAction(title: "update", style: UIAlertAction.Style.default) { [self](action) in
+            let alertController = UIAlertController(title: "Edit", message: "Successfully updated!", preferredStyle: UIAlertController.Style.alert)
+            alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default,handler: nil))
+            self.tableView.reloadData()
+    
+                
+                    // namo link sever "http://con.test:8888/Task.php"
+            let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/Edit.php")! as URL)
+            request.httpMethod = "POST"
+                
+                let postString = "username=\(getusername as! String)&TaskName=\(textField.text as! String)&TaskStatus=\(insert[indexPath.row].TaskStatus as! String)&date=\(stextField.text as! String)&End_Date=\(etextField.text as! String)&Id=\(Int16(insert[indexPath.row].Id as! String) as! Int16)"
+                    print("postString : \(postString)")
+                insert.removeAll()
+            request.httpBody = postString.data(using: String.Encoding.utf8)
+            let task = URLSession.shared.dataTask(with: request as URLRequest) {
+                        data, response, error in
+            if error != nil {
+            print("error=\(String(describing: error))")
+                            return
+                        }
+            print("response = \(String(describing: response))")
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(String(describing: responseString))")
+                downloadItems()
+            }
+            task.resume()
+            self.present(alertController, animated: true, completion: nil)
+           
+            self.tableView.reloadData()
+                }
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+                    }
+            alert.addTextField { [self] (alertTextField) in
+                 alertTextField.placeholder = "Edit Task"
+              alertTextField.text = didselect
+                 textField = alertTextField
+                }
+            alert.addTextField { [self] (textField1) in
+              let toolbar=UIToolbar()
+              toolbar.sizeToFit()
+         //   self.start_end_date2 = UIDatePicker(frame:CGRect(x: 0, y: self.view.frame.size.height - 220, width:self.view.frame.size.width, height: 216))
+               // start_end_date.datePickerMode = .date
+                let done1=UIBarButtonItem(barButtonSystemItem: .done, target:self, action:#selector(start))
+                toolbar.setItems([done1], animated: false)
+                textField1.inputAccessoryView=toolbar
+                textField1.inputView=start_end_date2
+                textField1.placeholder = "Edit Start Date"
+                textField1.text = sdateSelect
+                start_end_date2.datePickerMode = .date
+                stextField = textField1
+              }
+ 
+        alert.addTextField { [self] (textField2) in
+              let toolbar=UIToolbar()
+              toolbar.sizeToFit()
+          //      self.endDate2 = UIDatePicker(frame:CGRect(x: 0, y: self.view.frame.size.height - 220, width:self.view.frame.size.width, height: 216))
+              let done2=UIBarButtonItem(barButtonSystemItem: .done, target:self, action:#selector(end))
+                toolbar.setItems([done2], animated: false)
+                textField2.inputAccessoryView=toolbar
+                textField2.inputView=endDate2
+                textField2.placeholder = "Edit End Date"
+                textField2.text = edateSelect
+                endDate2.datePickerMode = .date
+                etextField = textField2
+             //   endDate.datePickerMode = .date
+              }
+                alert.addAction(action)
+            alert.addAction(cancel)
+                present(alert, animated: true, completion: nil)
+       
+    }
+    
     
     
     func parseJSON(_ data:Data) {
@@ -640,6 +730,8 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         desiredView.alpha = 1
         })
     }
+    
+    
     
     
     func  animatedismiss(desiredView:UIView){

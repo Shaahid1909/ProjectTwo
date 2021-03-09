@@ -121,7 +121,6 @@ class ViewController: UIViewController {
               // log.password = Password
                 }
             }
-            
         DispatchQueue.main.async(execute: { [self] () -> Void in
         itemsDownloaded(items: stocks)
             })
@@ -150,8 +149,6 @@ class ViewController: UIViewController {
                  }}}
             task.resume()
             }
-    
-    
     
     func downloadItems() {
    /* let urlPath = "https://appstudio.co/iOS/login.php"
