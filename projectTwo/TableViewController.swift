@@ -2,7 +2,7 @@
 import UIKit
 import Alamofire
 
-class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate{
+class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UISearchBarDelegate{
     
     var getusername:String?
     var urlpath:String?
@@ -11,6 +11,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     private let button = UIButton(type: UIButton.ButtonType.custom) as UIButton
     var feedItems: NSArray = NSArray()
     var insert = [insertData]()
+    var seinsert = [insertData]()
     var didselect:String?
     var oldTaskname:String?
     var sdateSelect: String?
@@ -28,6 +29,12 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     var stextField1 = UITextField()
     var etextField1 = UITextField()
     var textField = UITextField()
+    @IBOutlet var sepopView: UIView!
+    
+    @IBOutlet weak var searbar: UISearchBar!
+    
+    
+    
     @IBOutlet weak var conView: UIView!
     
     @IBAction func logout(_ sender: Any) {
@@ -123,6 +130,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     override func viewDidLoad() {
     super.viewDidLoad()
         self.removeSpinner()
+     
         popView.layer.cornerRadius = 10
         popView.layer.borderColor = UIColor.red.cgColor
         popView.layer.borderWidth = 0.3
@@ -150,9 +158,13 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         end()
         start1()
         end1()
+        setUpSearchBar()
+        view.addSubview(Vieww)
+      //  sepopView.frame = CGRect(x: 0, y: 140, width: 414, height: -40)
+        
     }
     
-
+   
     @IBAction func droplist(_ sender: Any) {
         if Vieww.isHidden == false{
             Vieww.isHidden = true
@@ -278,7 +290,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             cell.remainingdays.text = "Task date exceeded by \(insert[indexPath.row].remainDays!)"
             cell.remainingdays.textColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
         }else if conValue ?? 0 > 0 && insert[indexPath.row].TaskStatus == "Pending"{
-            cell.remainingdays.text = "\(insert[indexPath.row].remainDays!) Days more"
+            cell.remainingdays.text = "\(insert[indexPath.row].remainDays!) days more"
             cell.remainingdays.textColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         }else if conValue ?? 0 == 0 && insert[indexPath.row].TaskStatus == "Pending"{
             cell.remainingdays.text = "Today last date!"
@@ -310,6 +322,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     @IBAction func Add(_ sender: Any) {
         //Namo Server: con.test:8888/db.php
         //Mamp: http://localhost:8888/db.php
+            seinsert.removeAll()
             insert.removeAll()
             downloadItems()
             var textField = UITextField()
@@ -508,7 +521,8 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             print(TaskStatus)
                 
                 insert.append(insertData(TaskName: TaskName, TaskStatus: TaskStatus,TaskDate: TaskDate,Id: Id,endDate: TaskendDate, remainDays: redays))
-             
+                
+                seinsert.append(insertData(TaskName: TaskName, TaskStatus: TaskStatus,TaskDate: TaskDate,Id: Id,endDate: TaskendDate, remainDays: redays))
                 }
             }
         DispatchQueue.main.async(execute: { [self] () -> Void in
@@ -549,6 +563,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                 let postString = "username=\(getusername as! String)&TaskName=\(textField.text as! String)&TaskStatus=\(insert[indexPath.row].TaskStatus as! String)&date=\(stextField.text as! String)&End_Date=\(etextField.text as! String)&Id=\(Int16(insert[indexPath.row].Id as! String) as! Int16)"
                     print("postString : \(postString)")
                 insert.removeAll()
+                seinsert.removeAll()
             request.httpBody = postString.data(using: String.Encoding.utf8)
             let task = URLSession.shared.dataTask(with: request as URLRequest) {
                         data, response, error in
@@ -683,20 +698,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         self.view.endEditing(true)
     }
     
- /*
-    func datepicker2(){
-        let toolbar=UIToolbar()
-        toolbar.sizeToFit()
-        let done=UIBarButtonItem(barButtonSystemItem: .done, target:nil, action:#selector(start))
-        toolbar.setItems([done], animated: false)
-        stextField.inputAccessoryView=toolbar
-        stextField.inputView=start_end_date2
-        start_end_date2.datePickerMode = .date
-        etextField.inputAccessoryView=toolbar
-        etextField.inputView=endDate2
-        endDate2.datePickerMode = .date
-    }
-*/
+
     @objc func start(){
         let dateformat=DateFormatter()
         dateformat.dateStyle = .medium
@@ -744,6 +746,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     @IBAction func addTask(_ sender: Any) {
         insert.removeAll()
+        seinsert.removeAll()
         animatedismiss(desiredView: popView)
         let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/Task.php")! as URL)
         request.httpMethod = "POST"
@@ -781,10 +784,41 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         animateIn(desiredView: popView)
         Vieww.isHidden = true
     }
+
+    
+private func setUpSearchBar() {
+    searbar.delegate = self
+    }
+func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+   // animatedismiss(desiredView: sepopView)
+    searbar.text = ""
+          }
+
+func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    return searbar
+    }
+
+func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+  return UITableView.automaticDimension
+    }
+          
+func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+  
+  guard !searchText.isEmpty else{
+    insert = seinsert
+      tableView.reloadData()
+      return
+    }
+    insert = seinsert.filter({ insertData -> Bool in
+        insertData.TaskName.contains(searchText)
+    })
+    tableView.reloadData()
+    }
+    
         }
 
     struct insertData {
-    var TaskName:String?
+    var TaskName:String
     var TaskStatus:String?
     var TaskDate: String?
     var Id:String?
