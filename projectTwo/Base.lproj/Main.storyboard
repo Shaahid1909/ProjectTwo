@@ -555,8 +555,6 @@
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="UMG-Zl-ni1"/>
                                                         <constraint firstAttribute="width" constant="24" id="y8a-DD-UwN"/>
                                                     </constraints>
-                                                    <state key="normal" image="Unchecked"/>
-                                                    <state key="selected" image="Checked"/>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2021-02-21" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f0c-se-iYz">
                                                     <rect key="frame" x="19" y="45" width="100" height="30"/>
@@ -1584,10 +1582,8 @@
         <segue reference="zJM-HU-B2B"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="Checked" width="44" height="44"/>
         <image name="Circle" width="96" height="96"/>
         <image name="Circle.fill" width="96" height="96"/>
-        <image name="Unchecked" width="44" height="44"/>
         <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
         <image name="arrow.left" catalog="system" width="128" height="98"/>
         <image name="arrow.right" catalog="system" width="128" height="98"/>
