@@ -604,6 +604,12 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eOW-HC-hae">
+                                                    <rect key="frame" x="258" y="48" width="20" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="tintColor" systemColor="labelColor"/>
+                                                    <state key="normal" image="deskclock" catalog="system"/>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" red="0.86606204630000005" green="0.6625324266" blue="0.058369262710000001" alpha="0.92064017990000002" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
@@ -640,6 +646,7 @@
                                             <outlet property="dateBtn" destination="f0c-se-iYz" id="lEp-l4-onh"/>
                                             <outlet property="editBtn" destination="5hC-Sd-eOB" id="LzN-YL-dpN"/>
                                             <outlet property="endDate" destination="W5t-uB-vbH" id="had-KA-lDR"/>
+                                            <outlet property="remainderButton" destination="eOW-HC-hae" id="rtB-BN-2lF"/>
                                             <outlet property="remainingdays" destination="J7X-nt-Nfv" id="Vmu-KI-pYa"/>
                                             <outlet property="taskCheck" destination="mXw-uZ-3nq" id="pdZ-wG-HgV"/>
                                         </connections>
@@ -1585,6 +1592,7 @@
         <image name="arrow.left" catalog="system" width="128" height="98"/>
         <image name="arrow.right" catalog="system" width="128" height="98"/>
         <image name="arrow.right.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="deskclock" catalog="system" width="128" height="124"/>
         <image name="iconfinder_document_edit_48757" width="128" height="128"/>
         <image name="iconfinder_logo_brand_brands_logos_google_2993685-5" width="32" height="32"/>
         <image name="iconfinder_right_2_4829869" width="256" height="256"/>

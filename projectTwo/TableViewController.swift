@@ -1,8 +1,10 @@
 
 import UIKit
 import Alamofire
+import UserNotifications
 
-class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UISearchBarDelegate{
+
+class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UISearchBarDelegate,UNUserNotificationCenterDelegate {
     
     var getusername:String?
     var urlpath:String?
@@ -166,6 +168,8 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         end1()
         setUpSearchBar()
         view.addSubview(Vieww)
+        
+        UNUserNotificationCenter.current().delegate = self
       //  sepopView.frame = CGRect(x: 0, y: 140, width: 414, height: -40)
         
     }
@@ -190,16 +194,22 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
 //floating button action
     @objc private func buttonClicked(_ notification: NSNotification) {
             // do something when you tapped the button
-           // insert.removeAll()
+       // insert.removeAll()
+       //  seinsert.removeAll()
                 Vieww.isHidden = true
                 animatedismiss(desiredView: popView)
                 var textField = UITextField()
                 let alert = UIAlertController(title: "Add your Task", message: "", preferredStyle: UIAlertController.Style.alert)
                 let action = UIAlertAction(title: "Add", style: UIAlertAction.Style.default) { [self](action) in
+                    
+                    if textField.text!.trimmingCharacters(in: .whitespaces).isEmpty != true && stextField.text!.trimmingCharacters(in: .whitespaces).isEmpty != true && etextField.text!.trimmingCharacters(in: .whitespaces).isEmpty != true {
+                    
                 let request = NSMutableURLRequest(url: NSURL(string: "https://appstudio.co/iOS/Task.php")! as URL)
                 request.httpMethod = "POST"
                     let postString = "date=\(stextField1.text!)&End_Date=\(etextField1.text!)&username=\(getusername as! String)&TaskName=\(textField.text!)&TaskStatus=Pending"
                 request.httpBody = postString.data(using: String.Encoding.utf8)
+                    insert.removeAll()
+                    seinsert.removeAll()
                 let task1 = URLSession.shared.dataTask(with: request as URLRequest) {
                 data, response, error in
                 if error != nil {
@@ -208,15 +218,24 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                 }
                 print("response = \(String(describing: response))")
                 let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+                downloadItems()
                 print("responseString = \(String(describing: responseString))")
                 }
                 task1.resume()
-                    let task = insertData(TaskName:textField.text!,TaskStatus:"Pending", TaskDate: stextField1.text ,endDate: etextField1.text)
-                self.insert.append(task)
-                self.tableView.reloadData()
+           //      let task = insertData(TaskName:textField.text!,TaskStatus:"Pending", TaskDate: stextField1.text ,endDate: etextField1.text)
+           //    self.insert.append(task)
+                    self.tableView.reloadData()
                 let alertController = UIAlertController(title: "Task", message: "Task Added", preferredStyle: UIAlertController.Style.alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default,handler: nil))
+                self.tableView.reloadData()
                 self.present(alertController, animated: true, completion: nil)
+                    }else{
+                        let alert = UIAlertController(title: "Alert", message: "Fill all Fields!!", preferredStyle: UIAlertController.Style.alert)
+                        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+                        }
+                        alert.addAction(cancel)
+                        present(alert, animated: true, completion: nil)
+                    }
                 }
                 let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
                 }
@@ -254,6 +273,8 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
           alert.addAction(action)
           alert.addAction(cancel)
           present(alert, animated: true, completion: nil)
+     
+        
           }
     
     @objc func start1(){
@@ -289,6 +310,9 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     cell.dateBtn.text = insert[indexPath.row].TaskDate
     cell.endDate.text = insert[indexPath.row].endDate
     cell.taskCheck.addTarget(self, action: #selector(cellbtntapped(sender:)), for: .touchUpInside)
+        cell.remainderButton.tag = indexPath.row
+        cell.remainderButton.addTarget(self, action: #selector(remindcellbtntapped(sender:)), for: .touchUpInside)
+        
         cell.editBtn.tag = indexPath.row
         cell.editBtn.addTarget(self, action: #selector(editcellbtntapped(sender:)), for: .touchUpInside)
         let conValue = Int(insert[indexPath.row].remainDays ?? "")
@@ -412,14 +436,55 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         task2.resume()
         }
     }
+    @objc func remindcellbtntapped(sender:UIButton){
+        let tag = sender.tag
+        let indexPath = IndexPath(row: tag, section: 0)
+        let id = insert[indexPath.row]
+        let Content = UNMutableNotificationContent()
+        Content.title = "Alert!"
+        Content.subtitle = "Task remainder"
+        Content.body = "\(id.TaskName)"
+   //     let Trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+        let RequestIdentifier = "check"
+    //    let request = UNNotificationRequest(identifier: RequestIdentifier, content: Content, trigger: Trigger)
+        let formatter = DateFormatter()
+
+      //----  let datetime = formatter.date(from: "\(id.TaskDate)")
+        
+        
+        
+        
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone.current
+       // let testDate = Date() + 5 // Set this to whatever date you need
+      //----  let components = Calendar.current.dateComponents([.month, .hour, .day], from: datetime)
+     //---   let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+
+        // Create request
+        let uniqueID = UUID().uuidString // Keep a record of this if necessary
+     //----   let request = UNNotificationRequest(identifier: uniqueID, content: Content, trigger: trigger)
+       
+      //  UNUserNotificationCenter.current().add(request) { (error) in
+      //      print(error as Any)
+    //    }
+        
+        
+        
+    }
     
-    @objc func editcellbtntapped(sender:UIButton){
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound])
+    }
+  
+
+        @objc func editcellbtntapped(sender:UIButton){
         let tag = sender.tag
         let indexPath = IndexPath(row: tag, section: 0)
         
         oldTaskname?.removeAll()
         animatedismiss(desiredView: popView)
         Vieww.isHidden = true
+            
         didselect = "\(insert[indexPath.row].TaskName as! String)"
         sdateSelect = "\(insert[indexPath.row].TaskDate as! String)"
         edateSelect = "\(insert[indexPath.row].endDate as! String)"
@@ -544,6 +609,7 @@ class TableViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         oldTaskname?.removeAll()
         animatedismiss(desiredView: popView)
         Vieww.isHidden = true
+        
         didselect = "\(insert[indexPath.row].TaskName as! String)"
         sdateSelect = "\(insert[indexPath.row].TaskDate as! String)"
         edateSelect = "\(insert[indexPath.row].endDate as! String)"
