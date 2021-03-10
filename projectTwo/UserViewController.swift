@@ -118,7 +118,6 @@ class UserViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 let alertController = UIAlertController(title: "Edit", message: "Successfully updated!", preferredStyle: UIAlertController.Style.alert)
                 alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
                 self.tableView.reloadData()
-                
                 let request = NSMutableURLRequest(url: NSURL (string: "")! as URL)
                 request.httpMethod = "POST"
                 let postString = "username=\(username as! String)&TaskName=\(textfield.text as! String)&TaskStatus=\(userTask[indexPath.row].TaskStatus as! String)&Id=\(Int16(userTask[indexPath.row].Id as! String) as! Int16)"
@@ -134,8 +133,7 @@ class UserViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                     print("responseString = \(String(describing: responseString))")
                 }
                 task.resume()
-                self.present(alertController, animated:
-                                true, completion: nil)
+                self.present(alertController, animated:true, completion: nil)
                 userTask.removeAll()
                 downloadItems()
                 self.tableView.reloadData()
